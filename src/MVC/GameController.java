@@ -14,7 +14,7 @@ public class GameController implements GameModelEventsListener , GameUIEventsLis
 		this.theGameUI = theGameUI;
 		
 		theGame.registerListener(this);
-		theGameUI.registerListener(this);
+//		theGameUI.registerListener(this);
 	}
 	@Override
 	public void addMissileLauncherInModel() {

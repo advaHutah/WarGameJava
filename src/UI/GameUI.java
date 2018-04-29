@@ -1,13 +1,13 @@
 package UI;
 
-import MVC.GameController;
+//import MVC.GameController;
 
 public class GameUI {
 
-	public void registerListener(GameController gameController) {
-		// TODO Auto-generated method stub
-		
-	}
+//	public void registerListener(GameController gameController) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	public void showAddMissileLauncher() {
 		// TODO Auto-generated method stub

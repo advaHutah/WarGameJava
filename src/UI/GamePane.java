@@ -12,14 +12,23 @@ public class GamePane extends BorderPane
 	
 	
 	public GamePane(GameApplication theApplication) {
-		
+			
 		this.theApplication = theApplication;
 		
 		this.prefHeightProperty().bind(theApplication.getPrimaryStage().getScene().heightProperty());
-		//set sub-Pane location
-//		this.setLeft(missileLauncherPane);
-//		this.setRight(missileDestructorPane);
-//		this.setTop(missileLauncherDestructorPane);
-	}
+		this. prefWidthProperty().bind(theApplication.getPrimaryStage().getScene().widthProperty().subtract(theApplication.getMenu().widthProperty()));
+		
+		missileLauncherPane = new MissileLauncherPane();
+		missileDestructorPane = new MissileDestructorPane();
+		missileLauncherDestructorPane = new MissileLauncherDestructorPane();
+		missileLauncherDestructorPane.setId("missileLauncherDestructorPane");
+		missileLauncherDestructorPane.prefWidthProperty().bind(this.widthProperty());
+		missileLauncherDestructorPane.prefWidthProperty().bind(this.widthProperty().multiply(0.5));
+		missileLauncherPane.prefWidthProperty().bind(this.widthProperty().multiply(0.5));
 
+		//set sub-Pane location
+		this.setLeft(missileLauncherPane);
+		this.setRight(missileDestructorPane);
+		this.setTop(missileLauncherDestructorPane);
+	}
 }

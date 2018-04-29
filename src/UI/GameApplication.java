@@ -16,30 +16,32 @@ import javafx.stage.WindowEvent;
 public class GameApplication extends Application {
 
 	private Stage primaryStage;
-	private GamePane mainPanel;
+	private BorderPane mainPanel;
+	private GamePane gamePanel;
+	private MenuBox menu;
 
-	public GamePane getMainPanel() {
+	public BorderPane getMainPanel() {
 		return mainPanel;
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		mainPanel = new BorderPane();
 		
-//		BorderPane borderPane = new BorderPane();
-//		Scene scene = new Scene(borderPane, 500, 400);
-		FXMLLoader f = new FXMLLoader();
-		Parent fxmlRoot = (Parent) f.load(new FileInputStream(new File("war.fxml")));
 
-		Scene scene = new Scene(fxmlRoot);
-		
+		Scene scene = new Scene(mainPanel, 700, 600);
+		//		FXMLLoader f = new FXMLLoader();
+		//		Parent fxmlRoot = (Parent) f.load(new FileInputStream(new File("war.fxml")));
+
+		//		Scene scene = new Scene(fxmlRoot);
+
 		//TODO change css
 		scene.getStylesheets().add(this.getClass().getResource("application.css").toExternalForm());
-        primaryStage.setScene(scene);
-        
+		primaryStage.setScene(scene);
 		this.primaryStage = primaryStage;
-		
+
 		primaryStage.setTitle("War Game");
-	
+
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent e) {
@@ -47,22 +49,27 @@ public class GameApplication extends Application {
 				CloseApplicationUtil.closeApplication(GameApplication.this);
 			}
 		});
+		menu = new MenuBox(this);
+		gamePanel = new GamePane(this);
 		
-//		mainPanel = new GamePane(this);
-//		borderPane.setLeft(mainPanel);
-//		
-//		
-//		GameMenu theMenu = new GameMenu();
-//		borderPane.setLeft(theMenu);
 		
-        primaryStage.show();
-       // new GameController(new Game("Tribe 1", "Tribe 2"), mainPanel);
+		mainPanel.setRight(menu);
+		mainPanel.setLeft(gamePanel);
+		gamePanel.setId("game-Pane");
+
+
+
+		primaryStage.show();
+		// new GameController(new Game("Tribe 1", "Tribe 2"), mainPanel);
 	}
 
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
-	
+	public MenuBox getMenu() {
+		return menu;
+	}
+
 	public static void main(String[] args) {
 		launch(args);
 	}
