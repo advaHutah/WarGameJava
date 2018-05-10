@@ -25,11 +25,13 @@ public class Missile extends Thread implements Comparable<Missile> {
 
 	public void launch() throws InterruptedException {
 		synchronized (this) {
+//			Thread.sleep(launchTime * 1000);
 			theLauncher.addWaitingMissile(this);
-			System.out.println("Missile #" + getMissileId() + " is waiting to launch");
+			long f = (System.nanoTime() / 1000000000);
+			System.out.println("Missile #" + getMissileId() + " is waiting to launch " + (f - s));
 			// gets notified by launcher
 			wait();
-			long f = (System.nanoTime() / 1000000000);
+			f = (System.nanoTime() / 1000000000);
 			System.out.println("Missile #" + getMissileId() + " started launch " + (f - s));
 		}
 

@@ -11,24 +11,28 @@ public class MissileLauncher implements Runnable{
 	private boolean isHidden;
 	private Vector<Missile> missilesToLaunch;
 	private Queue<Missile> waitingMissiles = new PriorityQueue<Missile>();
+	private long s;
 
 	
-	public MissileLauncher(String id, boolean isHidden) {
+	public MissileLauncher(String id, boolean isHidden ) {
 		this.id = id;
 		this.isHidden = isHidden;
 		this.missilesToLaunch = new Vector<Missile>();
 	}
 
-	public MissileLauncher(String id) {
+	public MissileLauncher(String id,long s) {
 		this.id = id;
 		//seed if hidden 
 		Random random =  new Random();
 		this.isHidden = random.nextBoolean();
 		this.missilesToLaunch = new Vector<Missile>();
+		this.s = s;
 	}
 	
-	public void addMissile(Missile newMissile) {
+	public void addMissile(Missile newMissile) throws InterruptedException {
 		missilesToLaunch.add(newMissile);
+//		Thread.sleep(newMissile.getLaunchTime()*1000);
+
 		newMissile.start();
 	}
 	
@@ -49,7 +53,8 @@ public class MissileLauncher implements Runnable{
 	
 	public synchronized void launchMissile() throws InterruptedException {
 		Missile firstMissile = waitingMissiles.poll();
-		Thread.sleep(firstMissile.getLaunchTime()*1000);
+		if(s-(System.nanoTime() / 1000000000) > firstMissile.getLaunchTime()*1000)
+			Thread.sleep(firstMissile.getLaunchTime()*1000);
 		
 
 		if (firstMissile != null) {

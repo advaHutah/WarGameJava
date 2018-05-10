@@ -124,26 +124,23 @@ public class Game {
 		Game game = getInstance();
 		long s = (System.nanoTime()/1000000000);
 
-		MissileLauncher l101 = new MissileLauncher("L101");
-		MissileLauncher l102 = new MissileLauncher("L102");
+		MissileLauncher l101 = new MissileLauncher("L101",s);
+		MissileLauncher l102 = new MissileLauncher("L102",s);
 		Thread TL101 = new Thread(l101);
 		Thread TL102 = new Thread(l102);
 		TL101.start();
 //		TL102.start();
-
+		
 		Missile m1 = new Missile("M1", "Sderot", 12 ,2, 1500, l101,s);
 		Missile m2 = new Missile("M2", "Beer-Sheva", 7, 5, 2000, l101,s);
 		Missile m3 = new Missile("M3", "Ofakim", 4, 3, 5000, l102,s);
 		Missile m4 = new Missile("M4", "Beer-Sheva", 9, 7, 1000, l102,s);
 		l101.addMissile(m1);
 		l101.addMissile(m2);
+
 //		l102.addMissile(m3);
 //		l102.addMissile(m4);
-		
-		m1.join();
-		m2.join();
-		m3.join();
-		m4.join();
+//		
 
 		//
 		// game.missileLaunchers.addElement(l101);
