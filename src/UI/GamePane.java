@@ -1,8 +1,11 @@
 package UI;
 
+import javafx.geometry.Orientation;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.TilePane;
 
-public class GamePane extends BorderPane implements GameUI
+public class GamePane extends GridPane implements GameUI
 {	
 	//private Vector<GameUIEventsListener> allListeners;
 	private GameApplication theApplication;
@@ -18,18 +21,13 @@ public class GamePane extends BorderPane implements GameUI
 		this.prefHeightProperty().bind(theApplication.getPrimaryStage().getScene().heightProperty());
 		this. prefWidthProperty().bind(theApplication.getPrimaryStage().getScene().widthProperty().subtract(theApplication.getMenu().widthProperty()));
 		
-		missileLauncherPane = new MissileLauncherPane();
-		missileDestructorPane = new MissileDestructorPane(theApplication);
-		missileLauncherDestructorPane = new MissileLauncherDestructorPane();
-		missileLauncherDestructorPane.setId("missileLauncherDestructorPane");
-		missileLauncherDestructorPane.prefWidthProperty().bind(this.widthProperty());
-		missileLauncherDestructorPane.prefWidthProperty().bind(this.widthProperty().multiply(0.5));
-		missileLauncherPane.prefWidthProperty().bind(this.widthProperty().multiply(0.5));
 
-		//set sub-Pane location
-		this.setLeft(missileLauncherPane);
-		this.setRight(missileDestructorPane);
-		this.setTop(missileLauncherDestructorPane);
+		
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+			this.add(new MissileLauncherDestructorView("adva"), i, j);	
+			}
+		}
 	}
 
 
