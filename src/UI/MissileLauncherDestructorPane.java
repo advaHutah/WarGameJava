@@ -6,7 +6,7 @@ import javafx.scene.layout.GridPane;
 public class MissileLauncherDestructorPane extends GridPane {
 	
 	public MissileLauncherDestructorPane() {
-		this.addColumn(1, new Button("sd"));
+	//	this.addColumn(1, new Button("sd"));
 
 	}
 

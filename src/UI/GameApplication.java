@@ -1,13 +1,9 @@
 package UI;
 
-import java.io.File;
-import java.io.FileInputStream;
-
 import Util.CloseApplicationUtil;
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -26,9 +22,9 @@ public class GameApplication extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		mainPanel = new BorderPane();
 		
-
+		mainPanel = new BorderPane();
+	
 		Scene scene = new Scene(mainPanel, 700, 600);
 		//		FXMLLoader f = new FXMLLoader();
 		//		Parent fxmlRoot = (Parent) f.load(new FileInputStream(new File("war.fxml")));
@@ -36,12 +32,9 @@ public class GameApplication extends Application {
 		//		Scene scene = new Scene(fxmlRoot);
 
 		//TODO change css
+		this.primaryStage = primaryStage;
 		scene.getStylesheets().add(this.getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
-		this.primaryStage = primaryStage;
-
-		primaryStage.setTitle("War Game");
-
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent e) {
@@ -52,13 +45,17 @@ public class GameApplication extends Application {
 		menu = new MenuBox(this);
 		gamePanel = new GamePane(this);
 		
+		primaryStage.setTitle("War Game");
+
+		gamePanel.setId("game_pane");
+		menu.setId("menu_box");
 		
 		mainPanel.setRight(menu);
 		mainPanel.setLeft(gamePanel);
-		gamePanel.setId("game-Pane");
 
-
-
+		menu.setAlignment(Pos.TOP_RIGHT);
+		menu.getStyleClass().addAll("vbox","button");
+		
 		primaryStage.show();
 		// new GameController(new Game("Tribe 1", "Tribe 2"), mainPanel);
 	}

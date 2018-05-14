@@ -20,7 +20,7 @@ public class GameController implements GameModelEventsListener , GameUIEventsLis
 	public void addMissileLauncherInModel() {
 		//TODO how we going do it in UI
 
-		theGameUI.showAddMissileLauncher();
+		//theGameUI.showAddMissileLauncher();
 		
 	}
 
@@ -28,14 +28,14 @@ public class GameController implements GameModelEventsListener , GameUIEventsLis
 	public void addMissileLauncherDestructorInModel() {
 		//TODO how we going do it in UI
 
-		theGameUI.showAddMissileLauncherDestructor();
+		//theGameUI.showAddMissileLauncherDestructor();
 		
 	}
 
 	@Override
 	public void addMissileDestructorInModel() {
 		//TODO how we going do it in UI
-		theGameUI.showAddMissileDestructor();
+		//theGameUI.showAddMissileDestructor();
 		
 	}
 	@Override

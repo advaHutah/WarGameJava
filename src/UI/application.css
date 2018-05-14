@@ -1,42 +1,30 @@
-.label 
-{
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-text-fill: red;
+.button {
+	-fx-text-fill: white;
+	-fx-font-family: "Arial Narrow";
+	-fx-font-weight: bold;
+	-fx-font-size: 13px;
+	-fx-background-color: linear-gradient(#61a2b1, #2A5058);
+	-fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
+    -fx-pref-height: 28px;
+    -fx-pref-width: 200px;
+	
 }
 
-.button 
-{
-    -fx-text-fill: white;
-    -fx-font-family: "Arial Narrow";
-    -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+.vbox {
+	-fx-border-width: 2px;
+	-fx-border-color:black;
+	-fx-padding: 10;
+	-fx-spacing: 25;
+	-fx-background-color: lightblue;
+	
+
 }
 
-.button:hover 
-{
-    -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+
+#game_pane {
+	-fx-background-image: url("background.jpg");
+	-fx-background-size: cover;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center center;
 }
 
-.button-text 
-{
-   -fx-font-size: 16px;
-   -fx-font-family: "Arial Bold";
-   -fx-font-weight: bold;
-   -fx-fill: #818181;
-   -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
-}
-
-#game-Pane
- {
-     -fx-background-image: url("background.jpg");
-     -fx-background-size:     cover;                      
-     -fx-background-repeat:   no-repeat;
-     -fx-background-position: center center;
-}
-
-#missileLauncherDestructorPane
- {
-     -fx-min-height : 300px;
-}
