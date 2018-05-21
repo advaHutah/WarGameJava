@@ -9,6 +9,7 @@ public class Missile extends Thread implements Comparable<Missile> {
 	private int flyTime;
 	private int launchTime;
 	private int damage;
+	private boolean Destructed = false;
 	private MissileLauncher theLauncher;
 	private long s;
 
@@ -25,7 +26,7 @@ public class Missile extends Thread implements Comparable<Missile> {
 
 	public void launch() throws InterruptedException {
 		synchronized (this) {
-//			Thread.sleep(launchTime * 1000);
+			Thread.sleep(launchTime * 1000);
 			theLauncher.addWaitingMissile(this);
 			long f = (System.nanoTime() / 1000000000);
 			System.out.println("Missile #" + getMissileId() + " is waiting to launch " + (f - s));
@@ -40,10 +41,12 @@ public class Missile extends Thread implements Comparable<Missile> {
 	public synchronized void fly() throws InterruptedException {
 		synchronized (theLauncher) {
 			System.out.println(" Missile #" + getMissileId() + " starts flying for " + flyTime + "ms");
-			Thread.sleep(flyTime * 1000);
-			// if missile was destroyed
+			synchronized (this) {
+				wait(flyTime * 1000);// if missile was destroyed MissileDestructor notify
+				if(Destructed)	
+					System.out.println(" Missile #" + getMissileId() + " was destructed");
 
-			// else
+			}
 			theLauncher.notify();
 		}
 
@@ -71,7 +74,19 @@ public class Missile extends Thread implements Comparable<Missile> {
 	public int getLaunchTime() {
 		return launchTime;
 	}
-
+	
+	public boolean isDestructed() {
+		return Destructed;
+	}
+	
+	public void setDestructed(boolean destructed) {
+		Destructed = destructed;
+	}
+	
+	public int getFlyTime() {
+		return flyTime;
+	}
+	
 	@Override
 	public int compareTo(Missile otherMissile) {
 		if (this.launchTime > otherMissile.launchTime)

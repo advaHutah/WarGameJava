@@ -1,5 +1,6 @@
 package Logic;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 import MVC.GameModelEventsListener;
@@ -126,10 +127,28 @@ public class Game {
 
 		MissileLauncher l101 = new MissileLauncher("L101",s);
 		MissileLauncher l102 = new MissileLauncher("L102",s);
+	
+		HashMap<String, Integer> tod = new HashMap<>();
+		tod.put("M1", 4);
+		tod.put("M3", 8);
+		tod.put("M4", 8);
+		MissileDestructor D201 = new MissileDestructor("D201",tod);
+		MissileDestructor D202 = new MissileDestructor("D202");
+		
+		l101.registerListener(D201);
+		l102.registerListener(D201);
+
+		Thread TD201 = new Thread(D201);
+		//Thread TD202 = new Thread(D202);
+		
 		Thread TL101 = new Thread(l101);
 		Thread TL102 = new Thread(l102);
 		TL101.start();
-//		TL102.start();
+		TL102.start();
+		TD201.start();
+
+		//TD202.start();
+		
 		
 		Missile m1 = new Missile("M1", "Sderot", 12 ,2, 1500, l101,s);
 		Missile m2 = new Missile("M2", "Beer-Sheva", 7, 5, 2000, l101,s);
@@ -138,10 +157,9 @@ public class Game {
 		l101.addMissile(m1);
 		l101.addMissile(m2);
 
-//		l102.addMissile(m3);
-//		l102.addMissile(m4);
+		l102.addMissile(m3);
+		l102.addMissile(m4);
 //		
-
 		//
 		// game.missileLaunchers.addElement(l101);
 		// game.missileLaunchers.addElement(l102);

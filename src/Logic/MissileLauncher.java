@@ -12,12 +12,14 @@ public class MissileLauncher implements Runnable{
 	private Vector<Missile> missilesToLaunch;
 	private Queue<Missile> waitingMissiles = new PriorityQueue<Missile>();
 	private long s;
+	private Vector<MissileLaunchListener> listeners;
 
 	
 	public MissileLauncher(String id, boolean isHidden ) {
 		this.id = id;
 		this.isHidden = isHidden;
 		this.missilesToLaunch = new Vector<Missile>();
+		this.listeners = new Vector<MissileLaunchListener>();
 	}
 
 	public MissileLauncher(String id,long s) {
@@ -27,11 +29,21 @@ public class MissileLauncher implements Runnable{
 		this.isHidden = random.nextBoolean();
 		this.missilesToLaunch = new Vector<Missile>();
 		this.s = s;
+		this.listeners = new Vector<MissileLaunchListener>();
 	}
 	
+	public void registerListener(MissileLaunchListener newListener)
+	{
+		listeners.add(newListener);
+	}
+	
+	public void notifyAllListener(Missile missileFly){
+		int size = listeners.size();
+		for(int i=0;i<size;i++)
+			listeners.elementAt(i).onLaunchEvent(missileFly);
+	}
 	public void addMissile(Missile newMissile) throws InterruptedException {
 		missilesToLaunch.add(newMissile);
-//		Thread.sleep(newMissile.getLaunchTime()*1000);
 
 		newMissile.start();
 	}
@@ -53,9 +65,6 @@ public class MissileLauncher implements Runnable{
 	
 	public synchronized void launchMissile() throws InterruptedException {
 		Missile firstMissile = waitingMissiles.poll();
-		if(s-(System.nanoTime() / 1000000000) > firstMissile.getLaunchTime()*1000)
-			Thread.sleep(firstMissile.getLaunchTime()*1000);
-		
 
 		if (firstMissile != null) {
 
@@ -73,7 +82,7 @@ public class MissileLauncher implements Runnable{
 						+ firstMissile.getMissileId()
 						+ " will land/be destructed");
 				
-				
+				notifyAllListener(firstMissile);			
 
 				wait(); // wait till the missile finishes
 				
