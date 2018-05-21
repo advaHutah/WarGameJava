@@ -29,8 +29,7 @@ public class MissileDestructor implements MissileLaunchListener,Runnable {
 	public void onLaunchEvent(Missile launchedMissile) {
 		currentMissileToDestruct =launchedMissile;
 		currentWaitingTime = missilesToDestruct.get(launchedMissile.getMissileId());
-
-		synchronized (this) {
+			synchronized (this) {
 			notify();// 1 for missile to launch
 		}
 
