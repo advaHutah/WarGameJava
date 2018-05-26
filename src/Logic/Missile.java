@@ -40,11 +40,11 @@ public class Missile extends Thread implements Comparable<Missile> {
 
 	public synchronized void fly() throws InterruptedException {
 		synchronized (theLauncher) {
-			System.out.println(" Missile #" + getMissileId() + " starts flying for " + flyTime + "ms");
+			System.out.println("Missile #" + getMissileId() + " starts flying for " + flyTime + "ms");
 			synchronized (this) {
 				wait(flyTime * 1000);// if missile was destroyed MissileDestructor notify
 				if(Destructed)	
-					System.out.println(" Missile #" + getMissileId() + " was destructed");
+					System.out.println("Missile #" + getMissileId() + " was destructed");
 
 			}
 			theLauncher.notify();

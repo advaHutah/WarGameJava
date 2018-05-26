@@ -27,39 +27,31 @@ public class MissileDestructor implements MissileLaunchListener,Runnable {
 
 	@Override
 	public void onLaunchEvent(Missile launchedMissile) {
-		currentMissileToDestruct =launchedMissile;
-		currentWaitingTime = missilesToDestruct.get(launchedMissile.getMissileId());
+		if(missilesToDestruct.containsKey(launchedMissile.getMissileId()))
+		{
 			synchronized (this) {
-			notify();// 1 for missile to launch
-		}
-
-
-	}
-
-	@Override
-	public void run() {
-		synchronized (this) {
-			while(true){
-				try {
-					wait();//  1 for missile to launch
-					System.out.println("Desturctor "+ id +" Launcher waits "+currentWaitingTime+ " for "+currentMissileToDestruct.getMissileId());
-					Thread.sleep(currentWaitingTime*1000);
-					System.out.println("Desturctor "+ id +" finish waiting to "+currentMissileToDestruct.getMissileId());
-					if(currentWaitingTime< currentMissileToDestruct.getFlyTime() && !currentMissileToDestruct.isDestructed())
-					{
-						currentMissileToDestruct.setDestructed(true);
-						currentMissileToDestruct.notify();
-						System.out.println("Desturctor "+ id +" destoryed "+currentMissileToDestruct.getMissileId());
-					}
-					else
-						System.out.println("Desturctor "+ id +" missed "+currentMissileToDestruct.getMissileId());
-
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				currentMissileToDestruct =launchedMissile;
+				currentWaitingTime = missilesToDestruct.get(launchedMissile.getMissileId());
+				notify();
 			}
 		}
 	}
 
+	@Override
+	public void run() {
+		System.out.println("In Missile Desturctor "+ id +" ::run");
 
+		while(true){
+			try {
+				synchronized (this) {
+					wait();
+					new DestructTarget(currentMissileToDestruct, currentWaitingTime, id);
+				}
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
 }
