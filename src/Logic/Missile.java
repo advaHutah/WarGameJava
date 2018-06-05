@@ -1,6 +1,7 @@
 package Logic;
 
 import java.util.Calendar;
+import java.util.Random;
 
 public class Missile extends Thread implements Comparable<Missile> {
 
@@ -10,20 +11,24 @@ public class Missile extends Thread implements Comparable<Missile> {
 	private int launchTime;
 	private int damage;
 	private boolean Destructed = false;
+	private boolean willHit = true;
+	private boolean hitTarget =false;
 	private MissileLauncher theLauncher;
 	private long s;
 
-	public Missile(String id, String destination, int flyTime, int launchTime, int damage, MissileLauncher theLauncher,
-			long s) {
+	public Missile(String id, String destination, int flyTime, int launchTime, int damage, MissileLauncher theLauncher) {
+		Random r = new Random();
+
 		this.id = id;
 		this.destination = destination;
 		this.flyTime = flyTime;
 		this.launchTime = launchTime;
 		this.damage = damage;
 		this.theLauncher = theLauncher;
+		this.willHit = r.nextBoolean();
 		this.s = s;
 	}
-
+	
 	public void launch() throws InterruptedException {
 		synchronized (this) {
 			Thread.sleep(launchTime * 1000);
@@ -43,11 +48,21 @@ public class Missile extends Thread implements Comparable<Missile> {
 			System.out.println("Missile #" + getMissileId() + " starts flying for " + flyTime + "ms");
 			synchronized (this) {
 				wait(flyTime * 1000);// if missile was destroyed MissileDestructor notify
-				if(Destructed)	
+				if(Destructed)	{
+					willHit = false;
 					System.out.println("Missile #" + getMissileId() + " was destructed");
-
+				}
 			}
+			if(willHit){
+				hitTarget=true;
+				System.out.println("Missile #" + getMissileId() + " hit target");
+			}
+			else
+				System.out.println("Missile #" + getMissileId() + " missed target");
+
 			theLauncher.notify();
+			
+
 		}
 
 	}
@@ -85,6 +100,13 @@ public class Missile extends Thread implements Comparable<Missile> {
 	
 	public int getFlyTime() {
 		return flyTime;
+	}
+	
+	 public boolean isHitTarget() {
+		return hitTarget;
+	}
+	 public int getDamage() {
+		return damage;
 	}
 	
 	@Override

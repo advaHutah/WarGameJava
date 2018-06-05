@@ -18,17 +18,22 @@ public class MissileLauncherDestructor implements Runnable{
 		this.type = type;
 	}
 	
-	public MissileLauncherDestructor(String type , Map<Integer,MissileLauncher> launchersToDestruct){
-		this.type = type;
-		this.launchersToDestruct = launchersToDestruct;
-	}
-
+	
 	public void addlauncherToDestruct(MissileLauncher newMissileLauncher,int waitingTime) throws InterruptedException {
 		launchersToDestruct.put(waitingTime,newMissileLauncher);
 	}
 	
+	public void setLaunchersToDestruct(Map<Integer, MissileLauncher> launchersToDestruct) {
+		this.launchersToDestruct = launchersToDestruct;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
 	@Override
 	public void run() {
+		System.out.println("In Missile Launcher Destructor " + type + " ::run");
 		while(true){
 			if(!launchersToDestruct.isEmpty()){
 				for(Iterator<Map.Entry<Integer, MissileLauncher>> it = launchersToDestruct.entrySet().iterator(); it.hasNext(); ) {

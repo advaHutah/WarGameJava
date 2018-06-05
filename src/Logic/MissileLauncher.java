@@ -14,8 +14,9 @@ public class MissileLauncher implements Runnable {
 	private long s;
 	private Vector<MissileLaunchListener> listeners;
 	private boolean isDestroyed = false;
+	private int launchedMissileCounter =0;
 
-	public MissileLauncher(String id, boolean isHidden, long s) {
+	public MissileLauncher(String id, boolean isHidden) {
 		this.id = id;
 		this.isHidden = isHidden;
 		this.missilesToLaunch = new Vector<Missile>();
@@ -23,7 +24,7 @@ public class MissileLauncher implements Runnable {
 		this.listeners = new Vector<MissileLaunchListener>();
 	}
 
-	public MissileLauncher(String id, long s) {
+	public MissileLauncher(String id) {
 		this.id = id;
 		// seed if hidden
 		Random random = new Random();
@@ -90,6 +91,7 @@ public class MissileLauncher implements Runnable {
 			System.out.println("MissileLauncher " + id + " is notifying Missile #" + firstMissile.getMissileId());
 			synchronized (firstMissile) {
 				firstMissile.notifyAll();
+				launchedMissileCounter++;
 				isHidden = false;
 			}
 		}
@@ -112,6 +114,15 @@ public class MissileLauncher implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public int getLaunchedMissileCounter()
+	{
+		return launchedMissileCounter;
+	}
+	
+	public Vector<Missile> getMissilesToLaunch() {
+		return missilesToLaunch;
 	}
 
 	public void run() {

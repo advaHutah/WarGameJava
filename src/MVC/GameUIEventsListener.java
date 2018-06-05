@@ -8,10 +8,12 @@ public interface GameUIEventsListener {
 
 	void addMissileDestructorFromUI(String id);
 
-	void launchMissileFromUI(String id);
+	void launchMissileFromUI(String missileLauncherId, String missileId, String destination, int damage);
 
-	void destructMissileLauncherFromUI(String missileLaucherIdToDestruct , String missileLaucherDestructId);
+	void destructMissileLauncherFromUI(String missileLaucherDestructType, String missileLaucherDestructId);
 
-	void destructMissileFromUI(String missileIdToDestruct , String missileLaucherId);
+	void destructMissileFromUI(String missileIdToDestruct, String missileDestructorId);
+	
+	void viewGameStatusFromUI();
 
 }

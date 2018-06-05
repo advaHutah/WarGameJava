@@ -15,15 +15,19 @@ public class MissileDestructor implements MissileLaunchListener,Runnable {
 		this.missilesToDestruct = new HashMap<String,Integer>();
 	}
 
-	public MissileDestructor(String id ,Map<String,Integer> missilesToDestruct ) {
-		this.id = id;
-		this.missilesToDestruct =missilesToDestruct;
-	}
+	
 
 	public void addMissileToDestruct(String missileId,int destructAfterLaunch)
 	{
 		missilesToDestruct.put(missileId, destructAfterLaunch);
 	}
+	public void setMissilesToDestruct(Map<String, Integer> missilesToDestruct) {
+		this.missilesToDestruct = missilesToDestruct;
+	}
+	public String getId() {
+		return id;
+	}
+	
 
 	@Override
 	public void onLaunchEvent(Missile launchedMissile) {
@@ -37,6 +41,7 @@ public class MissileDestructor implements MissileLaunchListener,Runnable {
 		}
 	}
 
+	
 	@Override
 	public void run() {
 		System.out.println("In Missile Desturctor "+ id +" ::run");

@@ -1,5 +1,8 @@
 package UI;
 
+import java.util.Vector;
+
+import MVC.GameUIEventsListener;
 import javafx.geometry.Orientation;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -7,7 +10,7 @@ import javafx.scene.layout.TilePane;
 
 public class GamePane extends GridPane implements GameUI
 {	
-	//private Vector<GameUIEventsListener> allListeners;
+	private Vector<GameUIEventsListener> allListeners;
 	private GameApplication theApplication;
 	private MissileDestructorPane missileDestructorPane; 
 	private MissileLauncherPane missileLauncherPane;
@@ -31,46 +34,70 @@ public class GamePane extends GridPane implements GameUI
 	}
 
 
+
+
 	@Override
-	public void addMissileLauncher() {
+	public void registerListener(GameUIEventsListener listener) {
+		allListeners.add(listener);
+
+		
+	}
+
+
+
+
+	@Override
+	public void addMissileLauncher(String id) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
+
+
 	@Override
-	public void addMissileLauncherDestructor() {
+	public void addMissileLauncherDestructor(String type) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
+
+
 	@Override
-	public void addMissileDestructor() {
+	public void addMissileDestructor(String id) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
+
+
 	@Override
-	public void launchMissile() {
+	public void launchMissile(String missileLauncherId, String missileId, String destination, int damage) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
+
+
 	@Override
-	public void destructMissileLauncher() {
+	public void destructMissileLauncher(String missileLaucherDestructType, String missileLaucherDestructId) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
+
+
 	@Override
-	public void destructMissile() {
+	public void destructMissile(String missileIdToDestruct, String missileDestructorId) {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 
 	@Override
@@ -78,6 +105,8 @@ public class GamePane extends GridPane implements GameUI
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 
 	@Override
