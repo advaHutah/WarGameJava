@@ -1,10 +1,10 @@
 package Util;
 
-import UI.GameApplication;
+import UI.VisualApplication;
 import javafx.application.Platform;
 
 public class CloseApplicationUtil {
-	public static void closeApplication(GameApplication theApplication) {
+	public static void closeApplication(VisualApplication theApplication) {
 		/*DialogResponse response = Dialogs.showConfirmDialog(theApplication.getPrimaryStage(),
 			    "Are you sure you want to exit?", "Confirm Dialog", "Goodbye");
 		

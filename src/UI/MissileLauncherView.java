@@ -19,7 +19,7 @@ public class MissileLauncherView extends BorderPane {
 		image.setFitHeight(38);
 		image.setFitWidth(50);
 		this.setTop(image);
-		this.setBottom(txtName);
+		//this.setBottom(txtName);
 		
 	}	
 

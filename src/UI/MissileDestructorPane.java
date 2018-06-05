@@ -6,9 +6,9 @@ import javafx.scene.layout.GridPane;
 
 public class MissileDestructorPane extends GridPane{
 	
-	private GameApplication theApplication;
+	private VisualApplication theApplication;
 	
-	public MissileDestructorPane(GameApplication theApplication)
+	public MissileDestructorPane(VisualApplication theApplication)
 	{
 		this.theApplication = theApplication;
 		

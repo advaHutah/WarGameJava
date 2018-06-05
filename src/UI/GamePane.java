@@ -4,33 +4,36 @@ import java.util.Vector;
 
 import MVC.GameUIEventsListener;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 
-public class GamePane extends GridPane implements GameUI
+public class GamePane extends AnchorPane implements GameUI
 {	
 	private Vector<GameUIEventsListener> allListeners;
-	private GameApplication theApplication;
+	private VisualApplication theApplication;
 	private MissileDestructorPane missileDestructorPane; 
 	private MissileLauncherPane missileLauncherPane;
 	private MissileLauncherDestructorPane missileLauncherDestructorPane;
 	
 	
-	public GamePane(GameApplication theApplication) {
+	public GamePane(VisualApplication theApplication) {
 			
 		this.theApplication = theApplication;
 		
 		this.prefHeightProperty().bind(theApplication.getPrimaryStage().getScene().heightProperty());
 		this. prefWidthProperty().bind(theApplication.getPrimaryStage().getScene().widthProperty().subtract(theApplication.getMenu().widthProperty()));
 		
-
-		
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-			this.add(new MissileLauncherDestructorView("adva"), i, j);	
-			}
-		}
+		MissileLauncherView v = new MissileLauncherView("liran");
+//		BorderPane.setAlignment(v, Pos.BOTTOM_LEFT);
+		MissileLauncherView v1 = new MissileLauncherView("lddddddddiran");
+//		BorderPane.setAlignment(v1, Pos.BOTTOM_LEFT);
+		this.getChildren().addAll(v,v1);
+		AnchorPane.setBottomAnchor(v,60.0);
+		//AnchorPane.setTopAnchor(v,80.0);
+		AnchorPane.setBottomAnchor(v1,50.0);
 	}
 
 

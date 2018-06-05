@@ -9,7 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class GameApplication extends Application {
+public class VisualApplication extends Application {
 
 	private Stage primaryStage;
 	private BorderPane mainPanel;
@@ -39,7 +39,7 @@ public class GameApplication extends Application {
 			@Override
 			public void handle(WindowEvent e) {
 				e.consume(); // to prevent the application from default closing
-				CloseApplicationUtil.closeApplication(GameApplication.this);
+				CloseApplicationUtil.closeApplication(VisualApplication.this);
 			}
 		});
 		menu = new MenuBox(this);

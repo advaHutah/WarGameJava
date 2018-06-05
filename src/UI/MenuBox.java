@@ -7,11 +7,11 @@ import javafx.scene.layout.VBox;
 
 public class MenuBox extends VBox {
 
-	private GameApplication theApplication;
+	private VisualApplication theApplication;
 
 	private Vector<Button> buttons = new Vector<>();
 
-	public MenuBox(GameApplication theApplication) {
+	public MenuBox(VisualApplication theApplication) {
 		this.theApplication = theApplication;
 
 		for (int i = 0; i < GameUI.MENU_FUNCTIONS_NAMES.length; i++) {
