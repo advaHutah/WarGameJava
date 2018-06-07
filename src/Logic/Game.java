@@ -8,7 +8,7 @@ import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry.Entry;
 
 import MVC.GameModelEventsListener;
 
-public class Game {
+public class Game implements MissileLaunchListener,LauncherDestructListener {
 
 	private HashMap<String, MissileLauncher> missileLaunchers;
 	private HashMap<String, MissileDestructor> missileDestructors;
@@ -49,7 +49,9 @@ public class Game {
 		try {
 			
 			missileLaunchers.put(missileLauncher.getId(), missileLauncher);
-			fireAddMissileLauncher();
+			missileLauncher.registerListener(theGame);
+
+			fireAddMissileLauncher(missileLauncher.getId());
 		} catch (Exception e) {
 			fireNotificationFailedAddMissileLauncher(e.getMessage());
 		}
@@ -58,9 +60,10 @@ public class Game {
 		try {
 			MissileLauncher newml = new MissileLauncher(id);
 			missileLaunchers.put(id, newml);
+			newml.registerListener(theGame);
 			Thread newmlT = new Thread(newml);
 			newmlT.start();
-			fireAddMissileLauncher();
+			fireAddMissileLauncher(id);
 		} catch (Exception e) {
 			fireNotificationFailedAddMissileLauncher(e.getMessage());
 		}
@@ -74,7 +77,7 @@ public class Game {
 			}
 //			Thread newmdT = new Thread(destructor);
 //			newmdT.start();
-			fireAddMissileDestructor();
+			fireAddMissileDestructor(destructor.getId());
 		} catch (Exception e) {
 			fireNotificationFailedAddMissileDestructor(e.getMessage());
 		}
@@ -88,7 +91,7 @@ public class Game {
 			missileDestructors.put(id, newmd);
 			Thread newmdT = new Thread(newmd);
 			newmdT.start();
-			fireAddMissileDestructor();
+			fireAddMissileDestructor(id);
 		} catch (Exception e) {
 			fireNotificationFailedAddMissileDestructor(e.getMessage());
 		}
@@ -97,9 +100,8 @@ public class Game {
 	public void addMissileLauncherDestructorFromConfig(MissileLauncherDestructor missileLauncherDestructor) {
 		try {
 			missileLauncherDestructors.put(missileLauncherDestructor.getType(), missileLauncherDestructor);
-//			Thread newmldT = new Thread(missileLauncherDestructor);
-//			newmldT.start();
-			fireAddMissileLauncherDestructor();
+			missileLauncherDestructor.registerListener(theGame);
+			fireAddMissileLauncherDestructor(missileLauncherDestructor.getType());
 		} catch (Exception e) {
 			fireNotificationFailedAddMissileLauncherDestructor(e.getMessage());
 		}
@@ -108,10 +110,11 @@ public class Game {
 	public void addMissileLauncherDestructor(String type) {
 		try {
 			MissileLauncherDestructor newmld = new MissileLauncherDestructor(type);
+			newmld.registerListener(theGame);
 			missileLauncherDestructors.put(type, newmld);
 			Thread newmldT = new Thread(newmld);
 			newmldT.start();
-			fireAddMissileLauncherDestructor();
+			fireAddMissileLauncherDestructor(type);
 		} catch (Exception e) {
 			fireNotificationFailedAddMissileLauncherDestructor(e.getMessage());
 		}
@@ -133,22 +136,22 @@ public class Game {
 		}
 	}
 
-	private void fireAddMissileLauncher() {
+	private void fireAddMissileLauncher(String id) {
 		for (GameModelEventsListener g : allListeners) {
-			g.addMissileLauncherInModel();
+			g.addMissileLauncherInModel(id);
 		}
 	}
 
-	private void fireAddMissileDestructor() {
+	private void fireAddMissileDestructor(String id) {
 		for (GameModelEventsListener g : allListeners) {
-			g.addMissileDestructorInModel();
+			g.addMissileDestructorInModel(id);
 		}
 
 	}
 
-	private void fireAddMissileLauncherDestructor() {
+	private void fireAddMissileLauncherDestructor(String id) {
 		for (GameModelEventsListener g : allListeners) {
-			g.addMissileLauncherDestructorInModel();
+			g.addMissileLauncherDestructorInModel(id);
 		}
 	}
 
@@ -168,6 +171,18 @@ public class Game {
 	private void fireNotificationFailedAddMissileDestructor(String message) {
 		for (GameModelEventsListener g : allListeners) {
 			// g.notifyFailedAddMissileDestructorInModel(message);
+		}
+	}
+	
+	private void fireMissileLaunch(Missile missile) {
+		for (GameModelEventsListener g : allListeners) {
+			 g.launchMissileInModel(missile.getTheLauncher().getId(),missile.getMissileId(),missile.getDestination(),missile.getDamage(),missile.getFlyTime());
+		}
+	}
+	
+	private void fireDestructMissileLauncher(LauncherDestructTarget target) {
+		for (GameModelEventsListener g : allListeners) {
+			 g.destructMissileLauncherInModel(target.getType(),target.getTargetID());
 		}
 	}
 
@@ -285,5 +300,17 @@ public class Game {
 		// game.missileLaunchers.addElement(l101);
 		// game.missileLaunchers.addElement(l102);
 
+	}
+
+	@Override
+	public void onLaunchEvent(Missile launchedMissile) {
+		fireMissileLaunch(launchedMissile);
+		
+	}
+
+	@Override
+	public void onLaunchEvent(LauncherDestructTarget target) {
+		fireDestructMissileLauncher(target);
+		
 	}
 }

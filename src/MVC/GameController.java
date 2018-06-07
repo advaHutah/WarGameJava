@@ -17,25 +17,20 @@ public class GameController implements GameModelEventsListener, GameUIEventsList
 	}
 
 	@Override
-	public void addMissileLauncherInModel() {
-		// TODO how we going do it in UI
-
-		// theGameUI.showAddMissileLauncher();
+	public void addMissileLauncherInModel(String id) {
+		 theGameUI.showAddMissileLauncher(id);
 
 	}
 
 	@Override
-	public void addMissileLauncherDestructorInModel() {
-		// TODO how we going do it in UI
-
-		// theGameUI.showAddMissileLauncherDestructor();
+	public void addMissileLauncherDestructorInModel(String type) {
+		 theGameUI.showAddMissileLauncherDestructor(type);
 
 	}
 
 	@Override
-	public void addMissileDestructorInModel() {
-		// TODO how we going do it in UI
-		// theGameUI.showAddMissileDestructor();
+	public void addMissileDestructorInModel(String id) {
+		 theGameUI.showAddMissileDestructor(id);
 
 	}
 
@@ -58,14 +53,15 @@ public class GameController implements GameModelEventsListener, GameUIEventsList
 	}
 
 	@Override
-	public void launchMissileInModel() {
-		// TODO change it in UI
+	public 	void launchMissileInModel(String missileLauncherId, String missileId, String destination, int damage,int flytime) {
+		theGameUI.showMissileLaunch(missileLauncherId, missileId, destination, damage, flytime);
 
 	}
 
 	@Override
-	public void destructMissileLauncherInModel() {
-		// TODO change it in UI
+	public void destructMissileLauncherInModel(String type,String missileLauncherId) {
+		theGameUI.showDestructMissileLauncher(type,missileLauncherId);
+
 
 	}
 

@@ -12,10 +12,13 @@ public class MissileLauncherDestructor implements Runnable{
 
 	private String type;
 	private Map<Integer,MissileLauncher> launchersToDestruct = new HashMap<>();
+	private Vector<LauncherDestructListener> listeners;
 
 	public MissileLauncherDestructor(String type) {
 		super();
 		this.type = type;
+		this.listeners = new Vector<LauncherDestructListener>();
+
 	}
 	
 	
@@ -25,6 +28,16 @@ public class MissileLauncherDestructor implements Runnable{
 	
 	public void setLaunchersToDestruct(Map<Integer, MissileLauncher> launchersToDestruct) {
 		this.launchersToDestruct = launchersToDestruct;
+	}
+	
+	public void registerListener(LauncherDestructListener newListener) {
+		listeners.add(newListener);
+	}
+
+	public void notifyAllListener(LauncherDestructTarget target) {
+		int size = listeners.size();
+		for (int i = 0; i < size; i++)
+			listeners.elementAt(i).onLaunchEvent(target);
 	}
 	
 	public String getType() {
@@ -38,8 +51,9 @@ public class MissileLauncherDestructor implements Runnable{
 			if(!launchersToDestruct.isEmpty()){
 				for(Iterator<Map.Entry<Integer, MissileLauncher>> it = launchersToDestruct.entrySet().iterator(); it.hasNext(); ) {
 				      Map.Entry<Integer, MissileLauncher> entry = it.next();
-						new LauncherDestructTarget( entry.getValue(),entry.getKey(), type);
-				        it.remove();
+				      LauncherDestructTarget target = new LauncherDestructTarget( entry.getValue(),entry.getKey(), type);
+				      notifyAllListener(target);  
+				      it.remove();
 				      }
 //				for (Entry<Integer, MissileLauncher> entry : launchersToDestruct.entrySet()) {
 //					new LauncherDestructTarget( entry.getValue(),entry.getKey(), type);

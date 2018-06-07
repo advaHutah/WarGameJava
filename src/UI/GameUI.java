@@ -17,8 +17,11 @@ public interface GameUI {
 	void viewGameStatus();
 	void exit();
 	void registerListener(GameUIEventsListener listener);
-
 	
-
+	void showAddMissileLauncher(String id);
+	void showAddMissileLauncherDestructor(String type);
+	void showAddMissileDestructor(String id);
+	void showMissileLaunch(String missileLauncherId, String missileId, String destination, int damage,int flytime);
+	void showDestructMissileLauncher(String type,String missileLauncherId);
 
 }

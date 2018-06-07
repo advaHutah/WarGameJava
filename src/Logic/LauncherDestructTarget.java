@@ -11,12 +11,18 @@ public class LauncherDestructTarget extends Thread {
 		this.type=type;
 		this.start();
 	}
-
+	public String getTargetID() {
+		return target.getId();
+	}
+	
+	public String getType() {
+		return type;
+	}
 	@Override
 	public void run() {
 		try {
 			Thread.sleep(waitingTime*1000);
-
+			
 			System.out.println("Missile Launcher Desturctor "+type +" finish waiting to "+target.getId());
 
 			if(!target.isHidden())
@@ -31,4 +37,5 @@ public class LauncherDestructTarget extends Thread {
 			e.printStackTrace();
 		}
 	}
+	
 }

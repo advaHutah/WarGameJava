@@ -167,6 +167,37 @@ public class ConsoleApplication implements GameUI {
 		
 	}
 
+	@Override
+	public void showAddMissileLauncher(String id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showAddMissileLauncherDestructor(String type) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showAddMissileDestructor(String id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showMissileLaunch(String missileLauncherId, String missileId, String destination, int damage,
+			int flytime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showDestructMissileLauncher(String type, String missileLauncherId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 

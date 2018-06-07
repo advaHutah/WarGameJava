@@ -108,6 +108,12 @@ public class Missile extends Thread implements Comparable<Missile> {
 	 public int getDamage() {
 		return damage;
 	}
+	 public MissileLauncher getTheLauncher() {
+		return theLauncher;
+	}
+	 public String getDestination() {
+		return destination;
+	}
 	
 	@Override
 	public int compareTo(Missile otherMissile) {

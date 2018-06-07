@@ -2,15 +2,15 @@ package MVC;
 
 public interface GameModelEventsListener {
 
-	void addMissileLauncherInModel();
+	void addMissileLauncherInModel(String id);
 
-	void addMissileLauncherDestructorInModel();
+	void addMissileLauncherDestructorInModel(String id);
 
-	void addMissileDestructorInModel();
+	void addMissileDestructorInModel(String id);
 
-	void launchMissileInModel();
+	void launchMissileInModel(String missileLauncherId, String missileId, String destination, int damage,int flyTime);
 
-	void destructMissileLauncherInModel();
+	void destructMissileLauncherInModel(String type,String missileLauncherId);
 
 	void destructMissileInModel();
 

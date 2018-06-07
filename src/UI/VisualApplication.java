@@ -1,5 +1,7 @@
 package UI;
 
+import Logic.Game;
+import MVC.GameController;
 import Util.CloseApplicationUtil;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -57,7 +59,10 @@ public class VisualApplication extends Application {
 		menu.getStyleClass().addAll("vbox","button");
 		
 		primaryStage.show();
-		// new GameController(new Game("Tribe 1", "Tribe 2"), mainPanel);
+		new GameController(Game.getInstance() , gamePanel);
+	}
+	public GamePane getGamePanel() {
+		return gamePanel;
 	}
 
 	public Stage getPrimaryStage() {
