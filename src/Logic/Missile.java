@@ -1,7 +1,9 @@
 package Logic;
 
-import java.util.Calendar;
 import java.util.Random;
+import java.util.logging.Level;
+
+import Logger.GameLogger;
 
 public class Missile extends Thread implements Comparable<Missile> {
 
@@ -14,7 +16,6 @@ public class Missile extends Thread implements Comparable<Missile> {
 	private boolean willHit = true;
 	private boolean hitTarget =false;
 	private MissileLauncher theLauncher;
-	private long s;
 
 	public Missile(String id, String destination, int flyTime, int launchTime, int damage, MissileLauncher theLauncher) {
 		Random r = new Random();
@@ -26,39 +27,36 @@ public class Missile extends Thread implements Comparable<Missile> {
 		this.damage = damage;
 		this.theLauncher = theLauncher;
 		this.willHit = r.nextBoolean();
-		this.s = s;
 	}
 	
 	public void launch() throws InterruptedException {
 		synchronized (this) {
 			Thread.sleep(launchTime * 1000);
 			theLauncher.addWaitingMissile(this);
-			long f = (System.nanoTime() / 1000000000);
-			System.out.println("Missile #" + getMissileId() + " is waiting to launch " + (f - s));
+			GameLogger.log(theLauncher, Level.INFO,"Missile #" + getMissileId() + " is waiting to launch ");
 			// gets notified by launcher
 			wait();
-			f = (System.nanoTime() / 1000000000);
-			System.out.println("Missile #" + getMissileId() + " started launch " + (f - s));
+			GameLogger.log(theLauncher, Level.INFO,"Missile #" + getMissileId() + " started launch to "+destination);
 		}
 
 	}
 
 	public synchronized void fly() throws InterruptedException {
 		synchronized (theLauncher) {
-			System.out.println("Missile #" + getMissileId() + " starts flying for " + flyTime + "ms");
+			GameLogger.log(theLauncher, Level.INFO,"Missile #" + getMissileId() + " starts flying for " + flyTime + " seconds");
 			synchronized (this) {
 				wait(flyTime * 1000);// if missile was destroyed MissileDestructor notify
 				if(Destructed)	{
 					willHit = false;
-					System.out.println("Missile #" + getMissileId() + " was destructed");
+					GameLogger.log(theLauncher, Level.INFO,"Missile #" + getMissileId() + " was destructed");
 				}
 			}
 			if(willHit){
 				hitTarget=true;
-				System.out.println("Missile #" + getMissileId() + " hit target");
+				GameLogger.log(theLauncher, Level.INFO,"Missile #" + getMissileId() + " hit target "+ destination +" damage: "+ damage);
 			}
 			else
-				System.out.println("Missile #" + getMissileId() + " missed target");
+				GameLogger.log(theLauncher, Level.INFO,"Missile #" + getMissileId() + " missed target "+ destination );
 
 			theLauncher.notify();
 			
@@ -71,10 +69,6 @@ public class Missile extends Thread implements Comparable<Missile> {
 		return id;
 	}
 
-	// public long getId() {
-	// return id;
-	// }
-	//
 	@Override
 	public void run() {
 		try {

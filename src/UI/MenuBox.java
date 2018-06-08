@@ -100,7 +100,18 @@ public class MenuBox extends VBox {
 				}
 			});
 			break;
-			
+		case 5:
+			buttons.get(5).setOnAction(new EventHandler<ActionEvent>() {
+				
+				@Override
+				public void handle(ActionEvent event) {
+					DestructMissileDialog dml = new DestructMissileDialog();
+					dml.showAndWait();
+					theApplication.getGamePanel().destructMissile(dml.getMissileID().getText(),dml.getMissileDestructorId().getText());
+				}
+			});
+			break;
+					
 		
 
 		default:

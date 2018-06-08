@@ -85,7 +85,7 @@ public class ConsoleApplication implements GameUI {
 		case 6:			
 			System.out.println("enter missile Id: ");
 			String missileIdToDestruct= s.next();
-			System.out.println("enter missile destruct id: ");
+			System.out.println("enter missile destructor id: ");
 			String missileDestructorId= s.next();
 			destructMissile(missileIdToDestruct, missileDestructorId);
 			break;

@@ -212,7 +212,8 @@ public class GamePane extends AnchorPane implements GameUI {
 
 	@Override
 	public void destructMissile(String missileIdToDestruct, String missileDestructorId) {
-		// TODO Auto-generated method stub
+		for (GameUIEventsListener l : allListeners)
+			l.destructMissileFromUI(missileIdToDestruct, missileDestructorId);
 
 	}
 
@@ -233,6 +234,10 @@ public class GamePane extends AnchorPane implements GameUI {
 			int flytime) {
 		JOptionPane.showMessageDialog(null, "too many missile destructor", "InfoBox: " + "Error",
 		JOptionPane.INFORMATION_MESSAGE);
+		MissileView missile = new MissileView(missileId);
+		
+		this.getChildren().add(missile);
+		missile.MissileAnimation(flytime,(MissileLauncherView) missileLauncherVBox.getChildren().get(0));
 		
 	}
 

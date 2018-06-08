@@ -4,6 +4,9 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Vector;
+import java.util.logging.Level;
+
+import Logger.GameLogger;
 
 public class MissileLauncher implements Runnable {
 
@@ -11,7 +14,6 @@ public class MissileLauncher implements Runnable {
 	private boolean isHidden;
 	private Vector<Missile> missilesToLaunch;
 	private Queue<Missile> waitingMissiles = new PriorityQueue<Missile>();
-	private long s;
 	private Vector<MissileLaunchListener> listeners;
 	private boolean isDestroyed = false;
 	private int launchedMissileCounter =0;
@@ -20,8 +22,8 @@ public class MissileLauncher implements Runnable {
 		this.id = id;
 		this.isHidden = isHidden;
 		this.missilesToLaunch = new Vector<Missile>();
-		this.s = s;
 		this.listeners = new Vector<MissileLaunchListener>();
+		GameLogger.addFileHandler(this, id);
 	}
 
 	public MissileLauncher(String id) {
@@ -30,7 +32,6 @@ public class MissileLauncher implements Runnable {
 		Random random = new Random();
 		this.isHidden = random.nextBoolean();
 		this.missilesToLaunch = new Vector<Missile>();
-		this.s = s;
 		this.listeners = new Vector<MissileLaunchListener>();
 	}
 
@@ -70,8 +71,8 @@ public class MissileLauncher implements Runnable {
 	public synchronized void addWaitingMissile(Missile missile) {
 		waitingMissiles.add(missile);
 
-		System.out.println("After adding missile #" + missile.getMissileId() + " there are " + waitingMissiles.size()
-				+ " missiles waiting in " + id);
+		GameLogger.log(this, Level.INFO, "After adding missile #" + missile.getMissileId() + " there are " + waitingMissiles.size()
+		+ " missiles waiting in " + id);
 
 		synchronized (/* dummyWaiter */this) {
 			if (waitingMissiles.size() == 1) {
@@ -87,8 +88,7 @@ public class MissileLauncher implements Runnable {
 		if (isHidden)
 			wasHidden = true;
 		if (firstMissile != null) {
-
-			System.out.println("MissileLauncher " + id + " is notifying Missile #" + firstMissile.getMissileId());
+			GameLogger.log(this, Level.INFO, "MissileLauncher " + id + " is notifying Missile #" + firstMissile.getMissileId());
 			synchronized (firstMissile) {
 				firstMissile.notifyAll();
 				launchedMissileCounter++;
@@ -98,16 +98,14 @@ public class MissileLauncher implements Runnable {
 
 		synchronized (this) {
 			try {
-
-				System.out.println("MissileLauncher " + id + " waits that missile #" + firstMissile.getMissileId()
-						+ " will land/be destructed");
+				GameLogger.log(this, Level.INFO,"MissileLauncher " + id + " waits that missile #" + firstMissile.getMissileId()
+				+ " will land/be destructed");
 
 				notifyAllListener(firstMissile);
 
 				wait(); // wait till the missile finishes
-				long f = (System.nanoTime() / 1000000000);
-				System.out.println("Missile Launcher " + id + " was announced that Missile #"
-						+ firstMissile.getMissileId() + " is landed/destructed " + (f - s));
+				GameLogger.log(this, Level.INFO,"Missile Launcher " + id + " was announced that Missile #"
+						+ firstMissile.getMissileId() + " is landed/destructed ");
 				if (wasHidden)
 					isHidden = true;
 			} catch (InterruptedException e) {
@@ -126,8 +124,7 @@ public class MissileLauncher implements Runnable {
 	}
 
 	public void run() {
-		System.out.println("In Missile Launcher " + id + " ::run");
-
+		GameLogger.log(this, Level.INFO,"In Missile Launcher " + id + " ::run");
 		while (!isDestroyed) {
 			try {
 				if (!waitingMissiles.isEmpty()) {
@@ -135,12 +132,13 @@ public class MissileLauncher implements Runnable {
 					
 				} else {
 					synchronized (this) {
+						GameLogger.log(this, Level.INFO,"Missile Launcher " + id + " has no missiles waiting");
 
-						System.out.println("Missile Launcher " + id + " has no missiles waiting");
 						wait(); // wait till there is a missile waiting
 
 						// gets notified
-						System.out.println("Missile Launcher " + id + " was notified there is a missile waiting");
+						GameLogger.log(this, Level.INFO,"Missile Launcher " + id + " was notified there is a missile waiting");
+
 
 					}
 				}
@@ -148,7 +146,8 @@ public class MissileLauncher implements Runnable {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Missile Launcher " + id + " was Desrructed");
+		//gets destroyed
+		GameLogger.log(this, Level.INFO,"Missile Launcher " + id + " was Desrructed");
 		Thread.currentThread().interrupt();
 
 	}

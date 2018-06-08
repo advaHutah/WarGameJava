@@ -7,6 +7,9 @@ import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Vector;
+import java.util.logging.Level;
+
+import Logger.GameLogger;
 
 public class MissileLauncherDestructor implements Runnable{
 
@@ -18,12 +21,17 @@ public class MissileLauncherDestructor implements Runnable{
 		super();
 		this.type = type;
 		this.listeners = new Vector<LauncherDestructListener>();
+		GameLogger.addFileHandler(this, type);
+
 
 	}
 	
 	
 	public void addlauncherToDestruct(MissileLauncher newMissileLauncher,int waitingTime) throws InterruptedException {
 		launchersToDestruct.put(waitingTime,newMissileLauncher);
+		synchronized (this) {
+			this.notify();
+		}
 	}
 	
 	public void setLaunchersToDestruct(Map<Integer, MissileLauncher> launchersToDestruct) {
@@ -46,24 +54,31 @@ public class MissileLauncherDestructor implements Runnable{
 	
 	@Override
 	public void run() {
-		System.out.println("In Missile Launcher Destructor " + type + " ::run");
+		GameLogger.log(this, Level.INFO, "In Missile Launcher Destructor " + type + " ::run");
 		while(true){
 			if(!launchersToDestruct.isEmpty()){
 				for(Iterator<Map.Entry<Integer, MissileLauncher>> it = launchersToDestruct.entrySet().iterator(); it.hasNext(); ) {
 				      Map.Entry<Integer, MissileLauncher> entry = it.next();
-				      LauncherDestructTarget target = new LauncherDestructTarget( entry.getValue(),entry.getKey(), type);
+				      LauncherDestructTarget target = new LauncherDestructTarget( entry.getValue(),entry.getKey(), this);
 				      notifyAllListener(target);  
 				      it.remove();
 				      }
-//				for (Entry<Integer, MissileLauncher> entry : launchersToDestruct.entrySet()) {
-//					new LauncherDestructTarget( entry.getValue(),entry.getKey(), type);
-//					launchersToDestruct.remove(entry.getKey());
-//				}
+			}
+				else{
+					synchronized (this) {
+						try {
+							wait();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
 			}
 			
 		}
 		
-	}
+	
  
 
 	

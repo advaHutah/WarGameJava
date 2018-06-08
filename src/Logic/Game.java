@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Vector;
 
-import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry.Entry;
-
+import Logger.GameLogger;
 import MVC.GameModelEventsListener;
 
 public class Game implements MissileLaunchListener,LauncherDestructListener {
@@ -25,6 +24,7 @@ public class Game implements MissileLaunchListener,LauncherDestructListener {
 		missileLaunchers = new HashMap<String, MissileLauncher>();
 		missileDestructors = new HashMap<String, MissileDestructor>();
 		missileLauncherDestructors = new HashMap<String, MissileLauncherDestructor>();
+		GameLogger.addFileHandler(this, "game");
 	}
 
 	public static Game getInstance() {
@@ -75,8 +75,6 @@ public class Game implements MissileLaunchListener,LauncherDestructListener {
 			for (MissileLauncher launcher : missileLaunchers.values()) {
 				launcher.registerListener(destructor);
 			}
-//			Thread newmdT = new Thread(destructor);
-//			newmdT.start();
 			fireAddMissileDestructor(destructor.getId());
 		} catch (Exception e) {
 			fireNotificationFailedAddMissileDestructor(e.getMessage());
@@ -244,62 +242,6 @@ public class Game implements MissileLaunchListener,LauncherDestructListener {
 
 	public void exit() {
 		// todo
-	}
-
-	public static void main(String[] args) throws InterruptedException {
-//		Game game = getInstance();
-//		long s = (System.nanoTime() / 1000000000);
-//
-//		MissileLauncher l101 = new MissileLauncher("L101", false);
-//		MissileLauncher l102 = new MissileLauncher("L102", true);
-//
-//		HashMap<String, Integer> tod = new HashMap<>();
-//		tod.put("M1", 4);
-//		tod.put("M3", 8);
-//		tod.put("M4", 8);
-//
-//		HashMap<Integer, MissileLauncher> r = new HashMap<>();
-//		r.put(8, l102);
-//		r.put(12, l102);
-////		MissileLauncherDestructor ship = new MissileLauncherDestructor("shipA", r);
-//		HashMap<Integer, MissileLauncher> r2 = new HashMap<>();
-//		r2.put(4, l101);
-////		MissileLauncherDestructor plane = new MissileLauncherDestructor("plane", r2);
-//
-////		MissileDestructor D201 = new MissileDestructor("D201", tod);
-//		MissileDestructor D202 = new MissileDestructor("D202");
-//
-////		l101.registerListener(D201);
-////		l102.registerListener(D201);
-////
-////		Thread TD201 = new Thread(D201);
-//		// Thread TD202 = new Thread(D202);
-////		Thread TDship = new Thread(ship);
-////		Thread TDplane = new Thread(plane);
-//
-//		Thread TL101 = new Thread(l101);
-//		Thread TL102 = new Thread(l102);
-//		TL101.start();
-//		TL102.start();
-////		TD201.start();
-//		TDship.start();
-//		TDplane.start();
-//		// TD202.start();
-//
-//		Missile m1 = new Missile("M1", "Sderot", 12, 2, 1500, l101);
-//		Missile m2 = new Missile("M2", "Beer-Sheva", 7, 5, 2000, l101);
-//		Missile m3 = new Missile("M3", "Ofakim", 4, 3, 5000, l102);
-//		Missile m4 = new Missile("M4", "Beer-Sheva", 7, 9, 1000, l102);
-//		l101.addMissile(m1);
-//		l101.addMissile(m2);
-//
-//		l102.addMissile(m3);
-//		l102.addMissile(m4);
-		//
-		//
-		// game.missileLaunchers.addElement(l101);
-		// game.missileLaunchers.addElement(l102);
-
 	}
 
 	@Override

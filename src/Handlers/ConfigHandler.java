@@ -152,7 +152,6 @@ public class ConfigHandler {
 					// reading a destructedLauncher JSONobject's attributes
 					JsonNode destructedLauncherId_Node = destructedLauncher.path("id");
 					JsonNode destructAfterLaunchDestructTime_Node = destructedLauncher.path("destructTime");
-					System.out.println("launches map size : "+launchers.size());
 					// creating s DLauncher Object
 					targetsD.put(destructAfterLaunchDestructTime_Node.asInt(), launchers.get(destructedLauncherId_Node.asText()));
 					

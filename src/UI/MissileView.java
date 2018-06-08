@@ -1,9 +1,11 @@
 package UI;
 
+import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 public class MissileView  extends BorderPane{
 	public static String MISSILE_IMAGE = "missile.png";
@@ -19,4 +21,14 @@ public class MissileView  extends BorderPane{
 		this.setTop(image);
 		this.setBottom(txtName);
 	}
+	
+	public void MissileAnimation(int duration,MissileLauncherView from){
+		TranslateTransition transition = new TranslateTransition();
+		transition.setDuration(Duration.seconds(duration));
+		transition.setFromX(from.getScaleX());
+		transition.setToX(100);
+		transition.setNode(this);
+		transition.play();
+	}
 }
+

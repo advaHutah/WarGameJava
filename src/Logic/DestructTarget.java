@@ -1,25 +1,29 @@
 package Logic;
 
+import java.util.logging.Level;
+
+import Logger.GameLogger;
+
 public class DestructTarget extends Thread {
 	private Missile target;
 	private int waitingTime;
-	private String destructorId;
+	private MissileDestructor destructor;
 
 
-	public DestructTarget(Missile target,int waitingTime,String destructorId) {
+	public DestructTarget(Missile target,int waitingTime,MissileDestructor destructor) {
 		this.target = target;
 		this.waitingTime=waitingTime;
-		this.destructorId=destructorId;
+		this.destructor=destructor;
 		this.start();
 	}
 
 	@Override
 	public void run() {
 		try {
-			System.out.println("Desturctor "+ destructorId +" Launcher waits "+waitingTime+ " for "+target.getMissileId());
+			GameLogger.log(destructor, Level.INFO, "Desturctor "+ destructor.getId() +" Launcher waits "+waitingTime+ " for "+target.getMissileId());
 			Thread.sleep(waitingTime*1000);
 
-			System.out.println("Desturctor "+ destructorId +" finish waiting to "+target.getMissileId());
+			GameLogger.log(destructor, Level.INFO, "Desturctor "+ destructor.getId() +" finish waiting to "+target.getMissileId());
 
 			if(waitingTime< target.getFlyTime() && !target.isDestructed())
 			{
@@ -28,10 +32,10 @@ public class DestructTarget extends Thread {
 					target.notify();
 
 				}
-				System.out.println("Desturctor "+ destructorId +" destoryed "+target.getMissileId());
+				GameLogger.log(destructor, Level.INFO, "Desturctor "+ destructor.getId() +" destoryed "+target.getMissileId());
 			}
 			else
-				System.out.println("Desturctor "+ destructorId +" missed "+target.getMissileId());
+				GameLogger.log(destructor, Level.INFO, "Desturctor "+ destructor.getId() +" missed "+target.getMissileId());
 
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
