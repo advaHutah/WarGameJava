@@ -56,11 +56,17 @@ public class MissileLauncher implements Runnable {
 		listeners.add(newListener);
 	}
 
-	public void notifyAllListener(Missile missileFly) {
+	public void notifyAllLaunchListener(Missile missileFly) {
 		int size = listeners.size();
 		for (int i = 0; i < size; i++)
 			listeners.elementAt(i).onLaunchEvent(missileFly);
 	}
+	public void notifyAllLandListener(Missile missileLnd) {
+		int size = listeners.size();
+		for (int i = 0; i < size; i++)
+			listeners.elementAt(i).onLandEvent(missileLnd);
+	}
+
 
 	public void addMissile(Missile newMissile) throws InterruptedException {
 		missilesToLaunch.add(newMissile);
@@ -101,13 +107,15 @@ public class MissileLauncher implements Runnable {
 				GameLogger.log(this, Level.INFO,"MissileLauncher " + id + " waits that missile #" + firstMissile.getMissileId()
 				+ " will land/be destructed");
 
-				notifyAllListener(firstMissile);
+				notifyAllLaunchListener(firstMissile);
 
 				wait(); // wait till the missile finishes
 				GameLogger.log(this, Level.INFO,"Missile Launcher " + id + " was announced that Missile #"
 						+ firstMissile.getMissileId() + " is landed/destructed ");
 				if (wasHidden)
 					isHidden = true;
+				notifyAllLandListener(firstMissile);
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

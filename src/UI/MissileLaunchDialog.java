@@ -1,9 +1,6 @@
 package UI;
 
-import java.util.ArrayList;
-
 import javafx.geometry.Insets;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
@@ -42,8 +39,8 @@ public class MissileLaunchDialog extends Dialog<Object> {
 		this.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
 		GridPane grid = new GridPane();
-		grid.setHgap(10);
-		grid.setVgap(10);
+		grid.setHgap(SETTINGS.DIALOG_GAP);
+		grid.setVgap(SETTINGS.DIALOG_GAP);
 		grid.setPadding(new Insets(20, 150, 10, 10));
 
 		grid.add(new Label("Enter Missile Launcher ID:"), 0, 0);

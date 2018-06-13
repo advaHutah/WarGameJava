@@ -6,16 +6,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 public class MissileDestructorView extends BorderPane {
-	public static String MISSILE_DESTRUCTOR_IMAGE = "MissileDestructor_burned.png";
-	private String id;
 
 	public MissileDestructorView(String id) {
-		this.id = id;
 		Text txtName = new Text(id);
-		Image temp = new Image(MissileLauncherView.class.getResourceAsStream(MISSILE_DESTRUCTOR_IMAGE));
+		Image temp = new Image(MissileLauncherView.class.getResourceAsStream(SETTINGS.MISSILE_DESTRUCTOR_IMAGE));
 		ImageView image = new ImageView(temp);
-		image.setFitHeight(38);
-		image.setFitWidth(50);
+		image.setFitHeight(SETTINGS.MISSILE_IMAGE_HEIGHT);
+		image.setFitWidth(SETTINGS.MISSILE_IMAGE_WIDTH);
 		this.setTop(image);
 		this.setBottom(txtName);
 

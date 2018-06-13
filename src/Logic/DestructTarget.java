@@ -17,6 +17,21 @@ public class DestructTarget extends Thread {
 		this.start();
 	}
 
+	
+	public Missile getTarget() {
+		return target;
+	}
+
+
+	public MissileDestructor getDestructor() {
+		return destructor;
+	}
+	
+	public int getWaitingTime() {
+		return waitingTime;
+	}
+
+
 	@Override
 	public void run() {
 		try {

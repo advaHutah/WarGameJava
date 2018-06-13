@@ -6,23 +6,26 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 public class MissileLauncherDestructorView extends BorderPane {
-	public static String MISSILE_LAUNCHER_DESTRUCTOR_PLAIN = "airplan.png";
-	public static String MISSILE_LAUNCHER_DESTRUCTOR_SHIP = "ship.png";
 
+	Text txtName;
 	private String id;
 
 	public MissileLauncherDestructorView(String id, String imageType) {
 		this.id = id;
-		Text txtName = new Text(id);
+		txtName = new Text(id);
 		Image temp = null;
 		if (imageType.equals("plane")) {
-			temp = new Image(MissileLauncherView.class.getResourceAsStream(MISSILE_LAUNCHER_DESTRUCTOR_PLAIN));
+			temp = new Image(MissileLauncherView.class.getResourceAsStream(SETTINGS.MISSILE_LAUNCHER_DESTRUCTOR_PLAIN));
 		} else if (imageType.equals("ship"))
-			temp = new Image(MissileLauncherView.class.getResourceAsStream(MISSILE_LAUNCHER_DESTRUCTOR_SHIP));
+			temp = new Image(MissileLauncherView.class.getResourceAsStream(SETTINGS.MISSILE_LAUNCHER_DESTRUCTOR_SHIP));
 		ImageView image = new ImageView(temp);
-		image.setFitHeight(38);
-		image.setFitWidth(50);
+		image.setFitHeight(SETTINGS.MISSILE_IMAGE_HEIGHT);
+		image.setFitWidth(SETTINGS.MISSILE_IMAGE_WIDTH);
 		this.setTop(image);
 		this.setBottom(txtName);
+	}
+	
+	public void updateText(String text){
+		txtName.setText(id +" "+ text);
 	}
 }

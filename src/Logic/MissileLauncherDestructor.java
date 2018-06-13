@@ -42,12 +42,17 @@ public class MissileLauncherDestructor implements Runnable{
 		listeners.add(newListener);
 	}
 
-	public void notifyAllListener(LauncherDestructTarget target) {
+	public void notifyAllListenerLaunch(LauncherDestructTarget target) {
 		int size = listeners.size();
 		for (int i = 0; i < size; i++)
 			listeners.elementAt(i).onLaunchEvent(target);
 	}
 	
+	public void notifyAllListenerResult(LauncherDestructTarget target) {
+		int size = listeners.size();
+		for (int i = 0; i < size; i++)
+			listeners.elementAt(i).onDestructResult(target);
+	}
 	public String getType() {
 		return type;
 	}
@@ -60,7 +65,7 @@ public class MissileLauncherDestructor implements Runnable{
 				for(Iterator<Map.Entry<Integer, MissileLauncher>> it = launchersToDestruct.entrySet().iterator(); it.hasNext(); ) {
 				      Map.Entry<Integer, MissileLauncher> entry = it.next();
 				      LauncherDestructTarget target = new LauncherDestructTarget( entry.getValue(),entry.getKey(), this);
-				      notifyAllListener(target);  
+				      notifyAllListenerLaunch(target);  
 				      it.remove();
 				      }
 			}

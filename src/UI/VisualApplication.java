@@ -1,5 +1,6 @@
 package UI;
 
+import Handlers.ConfigHandler;
 import Logic.Game;
 import MVC.GameController;
 import Util.CloseApplicationUtil;
@@ -7,6 +8,9 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -16,7 +20,7 @@ public class VisualApplication extends Application {
 	private Stage primaryStage;
 	private BorderPane mainPanel;
 	private GamePane gamePanel;
-	private MenuBox menu;
+	private VisualMenu menu;
 
 	public BorderPane getMainPanel() {
 		return mainPanel;
@@ -27,13 +31,8 @@ public class VisualApplication extends Application {
 		
 		mainPanel = new BorderPane();
 	
-		Scene scene = new Scene(mainPanel, 700, 600);
-		//		FXMLLoader f = new FXMLLoader();
-		//		Parent fxmlRoot = (Parent) f.load(new FileInputStream(new File("war.fxml")));
+		Scene scene = new Scene(mainPanel, SETTINGS.SCREEN_WIDTH, SETTINGS.SCREEN_HEIGHT);
 
-		//		Scene scene = new Scene(fxmlRoot);
-
-		//TODO change css
 		this.primaryStage = primaryStage;
 		scene.getStylesheets().add(this.getClass().getResource("application.css").toExternalForm());
 		primaryStage.setScene(scene);
@@ -44,7 +43,7 @@ public class VisualApplication extends Application {
 				CloseApplicationUtil.closeApplication(VisualApplication.this);
 			}
 		});
-		menu = new MenuBox(this);
+		menu = new VisualMenu(this);
 		gamePanel = new GamePane(this);
 		
 		primaryStage.setTitle("War Game");
@@ -58,9 +57,31 @@ public class VisualApplication extends Application {
 		menu.setAlignment(Pos.TOP_RIGHT);
 		menu.getStyleClass().addAll("vbox","button");
 		
-		primaryStage.show();
 		new GameController(Game.getInstance() , gamePanel);
+		configDialog();
+		primaryStage.show();
+
+	
 	}
+	private void configDialog() {
+		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+		alert.setTitle("Load");
+		alert.setContentText("Do you want to read game settings from config file??");
+		ButtonType okButton = new ButtonType("Yes", ButtonData.YES);
+		ButtonType noButton = new ButtonType("No", ButtonData.NO);
+		alert.getButtonTypes().setAll(okButton, noButton);
+		alert.showAndWait().ifPresent(type -> {
+		        if (type.getText() == "Yes") {
+		        	try {
+						new ConfigHandler().readObjectsFromJSONFile();
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+		        } else if (type == ButtonType.NO) {
+		        }
+		});		
+	}
+
 	public GamePane getGamePanel() {
 		return gamePanel;
 	}
@@ -68,7 +89,7 @@ public class VisualApplication extends Application {
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
-	public MenuBox getMenu() {
+	public VisualMenu getMenu() {
 		return menu;
 	}
 

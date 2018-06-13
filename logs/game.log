@@ -1,0 +1,57 @@
+2018-06-11T17:08:30.959: In Missile Desturctor D202 ::run
+2018-06-11T17:08:30.976: In Missile Desturctor D201 ::run
+2018-06-11T17:08:30.977: In Missile Launcher Destructor plane ::run
+2018-06-11T17:08:30.978: In Missile Launcher Destructor shipA ::run
+2018-06-11T17:08:30.978: In Missile Launcher L101 ::run
+2018-06-11T17:08:30.979: In Missile Launcher L102 ::run
+2018-06-11T17:08:30.989: Missile Launcher L102 has no missiles waiting
+2018-06-11T17:08:30.992: Missile Launcher L101 has no missiles waiting
+2018-06-11T17:08:32.796: After adding missile #M1 there are 1 missiles waiting in L101
+2018-06-11T17:08:32.797: Missile #M1 is waiting to launch 
+2018-06-11T17:08:32.798: Missile Launcher L101 was notified there is a missile waiting
+2018-06-11T17:08:32.799: MissileLauncher L101 is notifying Missile #M1
+2018-06-11T17:08:32.802: MissileLauncher L101 waits that missile #M1 will land/be destructed
+2018-06-11T17:08:32.803: Missile #M1 started launch to Sderot
+2018-06-11T17:08:32.81: Missile #M1 starts flying for 12 seconds
+2018-06-11T17:08:32.822: Desturctor D201 Launcher waits 4 for M1
+2018-06-11T17:08:34.852: After adding missile #M3 there are 1 missiles waiting in L102
+2018-06-11T17:08:34.852: Missile #M3 is waiting to launch 
+2018-06-11T17:08:34.853: Missile Launcher L102 was notified there is a missile waiting
+2018-06-11T17:08:34.857: MissileLauncher L102 is notifying Missile #M3
+2018-06-11T17:08:34.858: MissileLauncher L102 waits that missile #M3 will land/be destructed
+2018-06-11T17:08:34.858: Missile #M3 started launch to Ofakim
+2018-06-11T17:08:34.859: Missile #M3 starts flying for 3 seconds
+2018-06-11T17:08:34.86: Desturctor D201 Launcher waits 8 for M3
+2018-06-11T17:08:34.998: Missile Launcher Desturctor plane finish waiting to L101
+2018-06-11T17:08:34.999: Missile Launcher Desturctor plane destoryed L101
+2018-06-11T17:08:36.823: Desturctor D201 finish waiting to M1
+2018-06-11T17:08:36.825: Desturctor D201 destoryed M1
+2018-06-11T17:08:36.826: Missile #M1 was destructed
+2018-06-11T17:08:36.831: Missile #M1 missed target Sderot
+2018-06-11T17:08:36.832: Missile Launcher L101 was announced that Missile #M1 is landed/destructed 
+2018-06-11T17:08:36.839: Missile Launcher L101 was Desrructed
+2018-06-11T17:08:36.841: After adding missile #M2 there are 1 missiles waiting in L101
+2018-06-11T17:08:36.842: Missile #M2 is waiting to launch 
+2018-06-11T17:08:37.859: Missile #M3 missed target Ofakim
+2018-06-11T17:08:37.864: Missile Launcher L102 was announced that Missile #M3 is landed/destructed 
+2018-06-11T17:08:37.865: Missile Launcher L102 has no missiles waiting
+2018-06-11T17:08:38.996: Missile Launcher Desturctor shipA finish waiting to L102
+2018-06-11T17:08:38.996: Missile Launcher Desturctor shipA missed L102
+2018-06-11T17:08:39.852: After adding missile #M4 there are 1 missiles waiting in L102
+2018-06-11T17:08:39.852: Missile #M4 is waiting to launch 
+2018-06-11T17:08:39.853: Missile Launcher L102 was notified there is a missile waiting
+2018-06-11T17:08:39.854: MissileLauncher L102 is notifying Missile #M4
+2018-06-11T17:08:39.855: MissileLauncher L102 waits that missile #M4 will land/be destructed
+2018-06-11T17:08:39.856: Missile #M4 started launch to Beer-Sheva
+2018-06-11T17:08:39.856: Missile #M4 starts flying for 7 seconds
+2018-06-11T17:08:39.861: Desturctor D201 Launcher waits 2 for M4
+2018-06-11T17:08:41.862: Desturctor D201 finish waiting to M4
+2018-06-11T17:08:41.862: Desturctor D201 destoryed M4
+2018-06-11T17:08:41.864: Missile #M4 was destructed
+2018-06-11T17:08:41.867: Missile #M4 missed target Beer-Sheva
+2018-06-11T17:08:41.875: Missile Launcher L102 was announced that Missile #M4 is landed/destructed 
+2018-06-11T17:08:41.876: Missile Launcher L102 has no missiles waiting
+2018-06-11T17:08:42.861: Desturctor D201 finish waiting to M3
+2018-06-11T17:08:42.861: Desturctor D201 missed M3
+2018-06-11T17:08:43: Missile Launcher Desturctor shipA finish waiting to L102
+2018-06-11T17:08:43: Missile Launcher Desturctor shipA missed L102

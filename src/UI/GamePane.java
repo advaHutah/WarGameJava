@@ -1,10 +1,13 @@
 package UI;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
 import MVC.GameUIEventsListener;
+import Util.CloseApplicationUtil;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -12,10 +15,7 @@ import javafx.scene.layout.VBox;
 
 public class GamePane extends AnchorPane implements GameUI {
 	final static int NUM_OF_TREES = 6;
-	final static int MAX_NUM_OF_MISSILE_LAUNCHER = 5;
-	final static int MAX_NUM_OF_MISSILE_LAUNCHER_D_PLANE = 6;
-	final static int MAX_NUM_OF_MISSILE_LAUNCHER_D_SHIP = 6;
-	final static int MAX_NUM_OF_MISSILE_DESTRUCTOR = 5;
+
 
 	private Vector<GameUIEventsListener> allListeners;
 	private VisualApplication theApplication;
@@ -24,14 +24,16 @@ public class GamePane extends AnchorPane implements GameUI {
 	private HBox missileLauncherDestructorPlaneHBox;
 	private HBox missileLauncherDestructorShipHBox;
 	private VBox treeVBox;
+	private HashMap<String, Integer> missileLaunchersLocationMap = new HashMap<>();
+	private HashMap<String, MissileView> missilesOnScreen = new HashMap<>();
+	private HashMap<String, Integer> missiledestructorLocationMap = new HashMap<>();
+	private HashMap<String, Integer> missileLauncherDestructorLocationMap = new HashMap<>();
+
 	private int numOfMissileL = 0;
 	private int numOfMissileD = 0;
-	private int numOfMissileLD_Plane = 0;
-	private int numOfMissileLD_Ship = 0;
+	private int numOfMissileLD_ship = 0;
+	private int numOfMissileLD_plane = 0;
 
-	// private MissileDestructorPane missileDestructorPane;
-	// private MissileLauncherPane missileLauncherPane;
-	// private MissileLauncherDestructorPane missileLauncherDestructorPane;
 
 	public GamePane(VisualApplication theApplication) {
 
@@ -57,26 +59,6 @@ public class GamePane extends AnchorPane implements GameUI {
 		missileLauncherDestructorShipHBox = new HBox();
 		hboxDesign(missileLauncherDestructorShipHBox);
 
-		// addMissileLauncherDestructor("planeA");
-		// addMissileLauncherDestructor("planeb");
-		// addMissileLauncherDestructor("ship");
-		// //addMissileLauncherDestructor("vv");
-		//
-		// addMissileLauncher("a");
-		// addMissileLauncher("a");
-		// addMissileLauncher("a");
-		// addMissileLauncher("a");
-		// addMissileLauncher("a");
-		// addMissileLauncher("a");
-		// addMissileLauncher("a");
-		//
-		// addMissileDestructor("b");
-		// addMissileDestructor("b");
-		// addMissileDestructor("b");
-		// addMissileDestructor("b");
-		// addMissileDestructor("b");
-		// addMissileDestructor("b");
-
 		// create vBox for trees in the middle
 		treeVBox = new VBox();
 		vboxDesign(treeVBox);
@@ -91,14 +73,14 @@ public class GamePane extends AnchorPane implements GameUI {
 	}
 
 	public void vboxDesign(VBox box) {
-		box.setPadding(new Insets(10));
-		box.setSpacing(8);
+		box.setPadding(new Insets(SETTINGS.BOX_PADDING));
+		box.setSpacing(SETTINGS.BOX_SPACING);
 
 	}
 
 	public void hboxDesign(HBox box) {
-		box.setPadding(new Insets(10));
-		box.setSpacing(8);
+		box.setPadding(new Insets(SETTINGS.BOX_PADDING));
+		box.setSpacing(SETTINGS.BOX_SPACING);
 
 	}
 
@@ -134,19 +116,13 @@ public class GamePane extends AnchorPane implements GameUI {
 	public void addMissileLauncher(String id) {
 		for (GameUIEventsListener l : allListeners)
 			l.addMissileLauncherFromUI(id);
-		// if (numOfMissileL < MAX_NUM_OF_MISSILE_LAUNCHER) {
-		// MissileLauncherView m = new MissileLauncherView(id);
-		// missileLauncherVBox.getChildren().add(m);
-		// numOfMissileL++;
-		// } else {
-		// JOptionPane.showMessageDialog(null, "too many missile launcher", "InfoBox: "
-		// + "Error", JOptionPane.INFORMATION_MESSAGE);
-		// }
-
 	}
+	@Override
+	public void showAddMissileLauncher(String id,boolean isHidden) {
 
-	public void showAddMissileLauncher(String id) {
-		MissileLauncherView m = new MissileLauncherView(id);
+		MissileLauncherView m = new MissileLauncherView(id,isHidden);
+		missileLaunchersLocationMap.put(id, numOfMissileL);
+		numOfMissileL++;
 		missileLauncherVBox.getChildren().add(m);
 	}
 
@@ -156,20 +132,22 @@ public class GamePane extends AnchorPane implements GameUI {
 			for (GameUIEventsListener l : allListeners)
 				l.addMissileLauncherDestructorFromUI(type);
 		else {
-			JOptionPane.showMessageDialog(null, "type must be ship/plane", "InfoBox: " + "Error",
-					JOptionPane.INFORMATION_MESSAGE);
+			showMessage("type must be ship/plane");
 		}
-
 	}
-	
+
 	@Override
 	public void showAddMissileLauncherDestructor(String type) {
 		if (type.contains("plane")) {
 			MissileLauncherDestructorView mLd = new MissileLauncherDestructorView(type, "plane");
-			missileLauncherDestructorPlaneHBox.getChildren().add(mLd);
+			missileLauncherDestructorPlaneHBox.getChildren().add(numOfMissileLD_plane,mLd);
+			missileLauncherDestructorLocationMap.put(type, numOfMissileLD_plane);
+			numOfMissileLD_plane++;
 		} else if (type.contains("ship")) {
 			MissileLauncherDestructorView mLd = new MissileLauncherDestructorView(type, "ship");
-			missileLauncherDestructorShipHBox.getChildren().add(mLd);
+			missileLauncherDestructorShipHBox.getChildren().add(numOfMissileLD_ship,mLd);
+			missileLauncherDestructorLocationMap.put(type, numOfMissileLD_ship);
+			numOfMissileLD_ship++;
 		}
 
 	}
@@ -179,20 +157,13 @@ public class GamePane extends AnchorPane implements GameUI {
 		for (GameUIEventsListener l : allListeners)
 			l.addMissileDestructorFromUI(id);
 	}
-		//if (numOfMissileD < MAX_NUM_OF_MISSILE_DESTRUCTOR) {
-//			MissileDestructorView md = new MissileDestructorView("");
-//			missileDestructorVBox.getChildren().add(md);
-//		//	numOfMissileD++;
-//		} else {
-//			JOptionPane.showMessageDialog(null, "too many missile destructor", "InfoBox: " + "Error",
-//					JOptionPane.INFORMATION_MESSAGE);
-//		}
-//	}
-	
+
 	@Override
 	public void showAddMissileDestructor(String id) {
 		MissileDestructorView md = new MissileDestructorView(id);
 		missileDestructorVBox.getChildren().add(md);
+		missiledestructorLocationMap.put(id, numOfMissileD);
+		numOfMissileD++;
 
 	}
 
@@ -200,7 +171,33 @@ public class GamePane extends AnchorPane implements GameUI {
 	public void launchMissile(String missileLauncherId, String missileId, String destination, int damage) {
 		for (GameUIEventsListener l : allListeners)
 			l.launchMissileFromUI(missileLauncherId, missileId, destination, damage);
+	}
+	@Override
+	public void showMissileLaunch(String missileLauncherId, String missileId, String destination, int damage,
+			int flytime) {
+		Platform.runLater(() -> {
+			((MissileLauncherView) missileLauncherVBox.getChildren().get(missileLaunchersLocationMap.get(missileLauncherId))).updateText(false);;
+			MissileView missile = new MissileView(missileId, (MissileLauncherView) missileLauncherVBox.getChildren()
+					.get(missileLaunchersLocationMap.get(missileLauncherId)));
+			missilesOnScreen.put(missileId, missile);
+			this.getChildren().add(missile);
+			missile.MissileAnimation(flytime, 1);
+		});
+	}
 
+	@Override
+	public void showMissileResult(String missileId, boolean isHit, boolean isDestructed,boolean isHidden,String launcherId) {
+		Platform.runLater(() -> {
+			((MissileLauncherView) missileLauncherVBox.getChildren().get(missileLaunchersLocationMap.get(launcherId))).updateText(isHidden);
+			MissileView missile = missilesOnScreen.get(missileId);
+			if (isHit)
+				missile.MissileAnimation(0, 2);
+			else if (isDestructed)
+				missile.MissileAnimation(0, 4);
+			else
+				missile.MissileAnimation(0, 3);
+
+		});
 	}
 
 	@Override
@@ -211,40 +208,78 @@ public class GamePane extends AnchorPane implements GameUI {
 	}
 
 	@Override
+	public void showDestructMissileLauncher(String type, String missileLauncherId) {
+		Platform.runLater(() -> {
+			if(type.contains("ship")){
+				((MissileLauncherDestructorView) missileLauncherDestructorShipHBox.getChildren()
+						.get(missileLauncherDestructorLocationMap.get(type))).updateText("trying to \n destruct "+missileLauncherId);
+			}
+			else if(type.contains("plane")){
+				((MissileLauncherDestructorView) missileLauncherDestructorPlaneHBox.getChildren()
+						.get(missileLauncherDestructorLocationMap.get(type))).updateText("trying to \n destruct "+missileLauncherId);;
+			}
+		});
+	}
+	
+	@Override
+	public void showLauncherDestructResult(String type , String missileLauncherId ,boolean isDestructed) {
+		Platform.runLater(() -> {
+			((MissileLauncherView) missileLauncherVBox.getChildren().get(missileLaunchersLocationMap.get(missileLauncherId))).updateImage(isDestructed);
+			String result;
+			if(isDestructed)
+				result = "Success";
+			else
+				result = "Failed";
+			if(type.contains("ship")){
+				
+				((MissileLauncherDestructorView) missileLauncherDestructorShipHBox.getChildren()
+						.get(missileLauncherDestructorLocationMap.get(type))).updateText("trying to \n destruct "+missileLauncherId + " " + result);
+			}
+			else if(type.contains("plane")){
+				((MissileLauncherDestructorView) missileLauncherDestructorPlaneHBox.getChildren()
+						.get(missileLauncherDestructorLocationMap.get(type))).updateText("trying to \n destruct "+missileLauncherId+ " "+ result);
+			}
+		});		
+	}
+
+	@Override
 	public void destructMissile(String missileIdToDestruct, String missileDestructorId) {
 		for (GameUIEventsListener l : allListeners)
 			l.destructMissileFromUI(missileIdToDestruct, missileDestructorId);
+	}
+
+	@Override
+	public void showDestructMissile(String missileIdToDestruct, String missileDestructorId,int waitingTime) {
+		Platform.runLater(() -> {
+			MissileDestructView destruct = new MissileDestructView((MissileDestructorView) missileDestructorVBox.getChildren()
+					.get(missiledestructorLocationMap.get(missileDestructorId)),waitingTime);
+			this.getChildren().add(destruct);
+			destruct.destructAnimation(missilesOnScreen.get(missileIdToDestruct));
+		});
 
 	}
 
 	@Override
 	public void viewGameStatus() {
-		// TODO Auto-generated method stub
+		for (GameUIEventsListener l : allListeners)
+			l.viewGameStatusFromUI();
+
+	}
+
+	@Override
+	public void showMessage(String message) {
+		JOptionPane.showMessageDialog(null, message, "Info" + "",
+				JOptionPane.INFORMATION_MESSAGE);
 
 	}
 
 	@Override
 	public void exit() {
-		// TODO Auto-generated method stub
+		CloseApplicationUtil.closeApplication(theApplication);
 
 	}
 
-	@Override
-	public void showMissileLaunch(String missileLauncherId, String missileId, String destination, int damage,
-			int flytime) {
-		JOptionPane.showMessageDialog(null, "too many missile destructor", "InfoBox: " + "Error",
-		JOptionPane.INFORMATION_MESSAGE);
-		MissileView missile = new MissileView(missileId);
-		
-		this.getChildren().add(missile);
-		missile.MissileAnimation(flytime,(MissileLauncherView) missileLauncherVBox.getChildren().get(0));
-		
-	}
+	
 
-	@Override
-	public void showDestructMissileLauncher(String type, String missileLauncherId) {
-		JOptionPane.showMessageDialog(null, "too many missile destructor", "InfoBox: " + "Error",
-				JOptionPane.INFORMATION_MESSAGE);
-		
-	}
+
 }

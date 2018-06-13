@@ -2,6 +2,7 @@ package Logic;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 import java.util.logging.Level;
 
 import Logger.GameLogger;
@@ -12,9 +13,13 @@ public class MissileDestructor implements MissileLaunchListener,Runnable {
 	private Map<String,Integer> missilesToDestruct;
 	private int currentWaitingTime;
 	private Missile currentMissileToDestruct;
+	private Vector<MissileDestructListener> listeners;
+	
 	public MissileDestructor(String id) {
 		this.id = id;
 		this.missilesToDestruct = new HashMap<String,Integer>();
+		this.listeners = new Vector<MissileDestructListener>();
+
 		GameLogger.addFileHandler(this, id);
 	}
 
@@ -31,6 +36,15 @@ public class MissileDestructor implements MissileLaunchListener,Runnable {
 		return id;
 	}
 	
+	public void registerListener(MissileDestructListener newListener) {
+		listeners.add(newListener);
+	}
+
+	public void notifyAllListener(DestructTarget target) {
+		int size = listeners.size();
+		for (int i = 0; i < size; i++)
+			listeners.elementAt(i).onLaunchEvent(target);
+	}
 
 	@Override
 	public void onLaunchEvent(Missile launchedMissile) {
@@ -43,7 +57,11 @@ public class MissileDestructor implements MissileLaunchListener,Runnable {
 			}
 		}
 	}
-
+	@Override
+	public void onLandEvent(Missile landMissile) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	@Override
 	public void run() {
@@ -53,7 +71,8 @@ public class MissileDestructor implements MissileLaunchListener,Runnable {
 			try {
 				synchronized (this) {
 					wait();
-					new DestructTarget(currentMissileToDestruct, currentWaitingTime, this);
+					DestructTarget target = new DestructTarget(currentMissileToDestruct, currentWaitingTime, this);
+					notifyAllListener(target);
 				}
 
 			} catch (InterruptedException e) {
@@ -62,4 +81,8 @@ public class MissileDestructor implements MissileLaunchListener,Runnable {
 		}
 
 	}
+
+
+
+	
 }

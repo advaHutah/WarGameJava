@@ -1,0 +1,10 @@
+2018-06-11T17:08:30.976: In Missile Desturctor D201 ::run
+2018-06-11T17:08:32.822: Desturctor D201 Launcher waits 4 for M1
+2018-06-11T17:08:34.86: Desturctor D201 Launcher waits 8 for M3
+2018-06-11T17:08:36.823: Desturctor D201 finish waiting to M1
+2018-06-11T17:08:36.825: Desturctor D201 destoryed M1
+2018-06-11T17:08:39.861: Desturctor D201 Launcher waits 2 for M4
+2018-06-11T17:08:41.862: Desturctor D201 finish waiting to M4
+2018-06-11T17:08:41.862: Desturctor D201 destoryed M4
+2018-06-11T17:08:42.861: Desturctor D201 finish waiting to M3
+2018-06-11T17:08:42.861: Desturctor D201 missed M3

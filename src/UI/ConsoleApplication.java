@@ -168,35 +168,72 @@ public class ConsoleApplication implements GameUI {
 	}
 
 	@Override
-	public void showAddMissileLauncher(String id) {
-		// TODO Auto-generated method stub
+	public void showAddMissileLauncher(String id,boolean isHidden) {
+		System.out.println("Missile Launcher "+ id+ "Was Added Is Hidden:"+isHidden);
 		
 	}
 
 	@Override
 	public void showAddMissileLauncherDestructor(String type) {
-		// TODO Auto-generated method stub
+		System.out.println("Missile Launcher Destructor "+ type+ "Was Added");
+
 		
 	}
 
 	@Override
 	public void showAddMissileDestructor(String id) {
-		// TODO Auto-generated method stub
+		System.out.println("Missile Destructor "+ id+ "Was Added");
 		
 	}
 
 	@Override
 	public void showMissileLaunch(String missileLauncherId, String missileId, String destination, int damage,
 			int flytime) {
-		// TODO Auto-generated method stub
+		System.out.println(missileId + " Was Launched From "+ missileLauncherId+" To "+ destination+ " For "+flytime + "Seconds");
 		
 	}
 
 	@Override
 	public void showDestructMissileLauncher(String type, String missileLauncherId) {
-		// TODO Auto-generated method stub
+		System.out.println("Missile launcher Destructor "+ type +" trying to destruct " + missileLauncherId);
+	}
+
+	@Override
+	public void showLauncherDestructResult(String type, String missileLauncherId, boolean isDestructed) {
+		String result;
+		if(isDestructed)
+			result = "Success";
+		else
+			result = "Failed";
+		System.out.println("Missile launcher Destructor "+ type +" attempt to destruct " + missileLauncherId+" " + result );
 		
 	}
+
+	@Override
+	public void showDestructMissile(String missileIdToDestruct, String missileDestructorId, int waitingTime) {
+		System.out.println("Missile  Destructor "+ missileDestructorId +" trying to destruct " + missileIdToDestruct);
+		
+	}
+
+	@Override
+	public void showMissileResult(String missileId, boolean isHit, boolean isDestructed, boolean isHidden,
+			String launcherId) {
+		if(isHit)
+			System.out.println("Missile  "+ missileId +" Hit Target ");
+		if(isDestructed)
+			System.out.println("Missile  "+ missileId +" was destructed");
+		else
+			System.out.println("Missile  "+ missileId +" Missed Target ");
+
+		
+	}
+
+	@Override
+	public void showMessage(String message) {
+		System.out.println(message);
+		
+	}
+
 
 
 

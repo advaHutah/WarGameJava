@@ -2,7 +2,6 @@ package UI;
 
 import MVC.GameUIEventsListener;
 
-//import MVC.GameController;
 
 public interface GameUI {
 	
@@ -18,10 +17,13 @@ public interface GameUI {
 	void exit();
 	void registerListener(GameUIEventsListener listener);
 	
-	void showAddMissileLauncher(String id);
+	void showAddMissileLauncher(String id,boolean isHidden);
 	void showAddMissileLauncherDestructor(String type);
 	void showAddMissileDestructor(String id);
 	void showMissileLaunch(String missileLauncherId, String missileId, String destination, int damage,int flytime);
 	void showDestructMissileLauncher(String type,String missileLauncherId);
-
+	void showDestructMissile(String missileIdToDestruct, String missileDestructorId, int waitingTime);
+	void showMissileResult(String missileId, boolean isHit, boolean isDestructed,boolean isHidden,String launcherId);
+	void showLauncherDestructResult(String type , String missileLauncherId ,boolean isDestructed);
+	void showMessage(String message);
 }

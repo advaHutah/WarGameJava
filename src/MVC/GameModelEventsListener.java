@@ -2,7 +2,7 @@ package MVC;
 
 public interface GameModelEventsListener {
 
-	void addMissileLauncherInModel(String id);
+	void addMissileLauncherInModel(String id,boolean isHidden);
 
 	void addMissileLauncherDestructorInModel(String id);
 
@@ -12,14 +12,27 @@ public interface GameModelEventsListener {
 
 	void destructMissileLauncherInModel(String type,String missileLauncherId);
 
-	void destructMissileInModel();
+	void destructMissileInModel(String missileIdToDestruct, String missileDestructorId, int waitingTime);
+	
+	void missileResultInModel(String missileId,boolean isHit,boolean isDestructed,boolean isHidden,String launcherId);
 
-//	void notifyFailedAddMissileLauncherInModel(String message);
-//
-//	void notifyFailedAddMissileLauncherDestructorInModel(String message);
-//
-//	void notifyFailedAddMissileDestructorInModel(String message);
-//
+	void notifyFailedAddMissileLauncherInModel(String message);
+
+	void notifyFailedAddMissileLauncherDestructorInModel(String message);
+
+	void notifyFailedAddMissileDestructorInModel(String message);
+
+	void missileLauncherDestructResultInModel(String type , String missileLauncherId ,boolean isDestructed);
+
+	void notifyFailedLaunchMissileInModel(String message);
+
+	void notifyFailedDestructMissileInModel(String message);
+
+	void notifyFailedDestructMissileLaucherInModel(String message);
+
+
+
+	
 //	void notifyFaildLaunchMissileInModel(String massage);
 //
 //	void notifyFaildDestructMissileLauncherInModel(String massage);

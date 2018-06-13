@@ -29,8 +29,8 @@ public class DestructMissileDialog extends Dialog<Object> {
 		this.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
 		GridPane grid = new GridPane();
-		grid.setHgap(10);
-		grid.setVgap(10);
+		grid.setHgap(SETTINGS.DIALOG_GAP);
+		grid.setVgap(SETTINGS.DIALOG_GAP);
 		grid.setPadding(new Insets(20, 150, 10, 10));
 
 		grid.add(new Label("Enter Missile Id"), 0, 0);

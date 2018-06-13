@@ -1,5 +1,5 @@
 package Logic;
 
 public interface MissileDestructListener {
-	void onLaunchEvent(Missile launchedMissile);
+	void onLaunchEvent(DestructTarget target);
 }

@@ -22,6 +22,11 @@ public class LauncherDestructTarget extends Thread {
 	public String getType() {
 		return theDestructor.getType();
 	}
+	
+	public MissileLauncher getTarget() {
+		return target;
+	}
+	
 	@Override
 	public void run() {
 		try {
@@ -36,7 +41,8 @@ public class LauncherDestructTarget extends Thread {
 			}
 			else
 				GameLogger.log(theDestructor, Level.INFO,"Missile Launcher Desturctor "+theDestructor.getType() +" missed "+target.getId());
-
+			
+			theDestructor.notifyAllListenerResult(this);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
