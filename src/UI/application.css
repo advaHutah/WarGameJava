@@ -28,3 +28,31 @@
 	-fx-background-position: center center;
 }
 
+#missileLauncherVBox {
+	-fx-padding: 10;
+	-fx-spacing: 8;
+}
+
+#missileDestructorVBox {
+	-fx-padding: 10;
+	-fx-spacing: 8;
+}
+
+#missileLauncherDestructorPlaneHBox {
+	-fx-padding: 10;
+	-fx-spacing: 8;
+}
+
+#missileLauncherDestructorShipHBox {
+	-fx-padding: 10;
+	-fx-spacing: 8;
+}
+
+#treeVBox {
+	-fx-padding: 10;
+	-fx-spacing: 8;
+}
+
+
+
+

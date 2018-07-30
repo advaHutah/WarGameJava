@@ -1,5 +1,6 @@
 package UI;
 
+import UI.SETTINGS.MISSSILE_ANIMATION;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
@@ -38,11 +39,11 @@ public class MissileView  extends BorderPane{
 	public TranslateTransition getTransition() {
 		return transition;
 	}
-	public void MissileAnimation(int duration,int phase){
+	public void MissileAnimation(int duration,MISSSILE_ANIMATION phase){
 		transition= new TranslateTransition();
 		Bounds boundsInScene;
 		switch (phase) {
-		case 1://launch
+		case START://launch
 			transition.setDuration(Duration.seconds(duration));
 			boundsInScene = from.localToScene(from.getBoundsInLocal());
 			transition.setFromX(boundsInScene.getMaxX());
@@ -54,7 +55,7 @@ public class MissileView  extends BorderPane{
 			transition.play();;
 
 			break;
-		case 2://hit
+		case HIT://hit
 			transition.setDuration(Duration.seconds(1));
 			boundsInScene = this.localToScene(this.getBoundsInLocal());
 			transition.setFromX(boundsInScene.getMaxX());
@@ -65,7 +66,7 @@ public class MissileView  extends BorderPane{
 			transition.setNode(this);
 			transition.play();
 			break;
-		case 3://missed
+		case MISS://missed
 			this.setVisible(false);
 			boundsInScene = from.localToScene(from.getBoundsInLocal());
 			this.xLoc=boundsInScene.getMaxX()+SETTINGS.MISSILE_DISTANCE;

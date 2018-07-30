@@ -6,9 +6,9 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 import MVC.GameUIEventsListener;
+import UI.SETTINGS.MISSSILE_ANIMATION;
 import Util.CloseApplicationUtil;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -39,29 +39,31 @@ public class GamePane extends AnchorPane implements GameUI {
 
 		this.theApplication = theApplication;
 		this.allListeners = new Vector<GameUIEventsListener>();
+		//set game pane size relatively
 		this.prefHeightProperty().bind(theApplication.getPrimaryStage().getScene().heightProperty());
 		this.prefWidthProperty().bind(theApplication.getPrimaryStage().getScene().widthProperty()
 				.subtract(theApplication.getMenu().widthProperty()));
 
-		// create vBox for missileLaunchers - on left size
-		this.missileLauncherVBox = new VBox();
-		vboxDesign(missileLauncherVBox);
+		// create vBox for missileLaunchers - on left side
+		missileLauncherVBox = new VBox();
+		missileLauncherVBox.setId("missileLauncherVBox");
 
 		// create vBox for missileDestructor on right
 		missileDestructorVBox = new VBox();
-		vboxDesign(missileDestructorVBox);
-
+		missileDestructorVBox.setId("missileDestructorVBox");
+		
 		// create hBox for missileLauncherDestructorPlaneHBox on top
 		missileLauncherDestructorPlaneHBox = new HBox();
-		hboxDesign(missileLauncherDestructorPlaneHBox);
-
+		missileLauncherDestructorPlaneHBox.setId("missileLauncherDestructorPlaneHBox");
+		
 		// create hBox for missileLauncherDestructorShipHBox on top
 		missileLauncherDestructorShipHBox = new HBox();
-		hboxDesign(missileLauncherDestructorShipHBox);
-
+		missileLauncherDestructorShipHBox.setId("missileLauncherDestructorShipHBox");
+		
 		// create vBox for trees in the middle
 		treeVBox = new VBox();
-		vboxDesign(treeVBox);
+		treeVBox.setId("treeVBox");
+		
 		createTrees(treeVBox);
 
 		// set location for all children
@@ -69,18 +71,6 @@ public class GamePane extends AnchorPane implements GameUI {
 
 		this.getChildren().addAll(missileLauncherVBox, missileDestructorVBox, treeVBox,
 				missileLauncherDestructorPlaneHBox, missileLauncherDestructorShipHBox);
-
-	}
-
-	public void vboxDesign(VBox box) {
-		box.setPadding(new Insets(SETTINGS.BOX_PADDING));
-		box.setSpacing(SETTINGS.BOX_SPACING);
-
-	}
-
-	public void hboxDesign(HBox box) {
-		box.setPadding(new Insets(SETTINGS.BOX_PADDING));
-		box.setSpacing(SETTINGS.BOX_SPACING);
 
 	}
 
@@ -181,7 +171,7 @@ public class GamePane extends AnchorPane implements GameUI {
 					.get(missileLaunchersLocationMap.get(missileLauncherId)));
 			missilesOnScreen.put(missileId, missile);
 			this.getChildren().add(missile);
-			missile.MissileAnimation(flytime, 1);
+			missile.MissileAnimation(flytime, MISSSILE_ANIMATION.START);
 		});
 	}
 
@@ -191,11 +181,11 @@ public class GamePane extends AnchorPane implements GameUI {
 			((MissileLauncherView) missileLauncherVBox.getChildren().get(missileLaunchersLocationMap.get(launcherId))).updateText(isHidden);
 			MissileView missile = missilesOnScreen.get(missileId);
 			if (isHit)
-				missile.MissileAnimation(0, 2);
+				missile.MissileAnimation(0, MISSSILE_ANIMATION.HIT);
 			else if (isDestructed)
-				missile.MissileAnimation(0, 4);
+				missile.MissileAnimation(0, MISSSILE_ANIMATION.DESTRUCT);
 			else
-				missile.MissileAnimation(0, 3);
+				missile.MissileAnimation(0, MISSSILE_ANIMATION.MISS);
 
 		});
 	}

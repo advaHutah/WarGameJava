@@ -17,8 +17,7 @@ public class SETTINGS {
 	public static final String TREE_IMAGE = "images/deciduous-tree.png";
 	public static final double SCREEN_WIDTH = 700;
 	public static final double SCREEN_HEIGHT = 600;
-	public static final double BOX_PADDING = 10;
-	public static final double BOX_SPACING = 8;
+	public static enum MISSSILE_ANIMATION {START,HIT,DESTRUCT,MISS};
 
 
 
